@@ -20,13 +20,13 @@ public class Case {
 		this.dateOfSending = dateOfSending;
 	}
 
-	public Hearing scheduleHearingForCase( Room room ,HearingType hearingType) {
+	public Hearing scheduleHearing( Room room ,HearingType hearingType) {
 		Hearing hearing = new Hearing(this , room, hearingType);
 		listOfHearing.add(hearing);
 		return hearing;
 	}
 
-	public void vacateHearingForCase( Room room ,HearingType hearingType) {
+	public void vacateHearing( Room room ,HearingType hearingType) {
 		List<Hearing> toBeRemoved = new ArrayList<Hearing>();
 		listOfHearing.forEach(h -> {
 			if (h.hearingType == hearingType && h.courtRoom == room) {

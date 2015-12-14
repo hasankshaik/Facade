@@ -7,14 +7,18 @@ import org.apache.commons.lang3.time.DateUtils;
 import org.junit.Assert;
 import org.junit.Test;
 
+import com.domain.commands.SchedulingHearingCommand;
+import com.domain.commands.VacateHearingCommand;
 import com.domain.courtcase.Case;
-import com.domain.courtcase.Hearing;
 import com.domain.courtcase.HearingType;
+import com.domain.db.InMemoryDB;
+import com.domain.events.HearingScheduledEvent;
 import com.domain.panel.Judge;
 import com.domain.room.Block;
 import com.domain.room.BlockType;
 import com.domain.room.Room;
 import com.domain.room.Session;
+import com.service.ScheduleHearingService;
 
 public class ScheduleTest {
 
@@ -45,25 +49,24 @@ public class ScheduleTest {
 		Room room = new Room(100, "RoomA");
 		room.addSession(Arrays.asList(session, trialSession));
 
-		// Given when case exist
+		// Given when case exist and has the date of sending
 		Case caseForDef = new Case("T300");
-
-		// When I add the date of sending to a case
 		caseForDef.addDateOfSending(new Date());
+		InMemoryDB.listCase.add(caseForDef);
 
 		// Then PTP Hearing is booked on calculated date
-		Hearing hearing = caseForDef.scheduleHearingForCase(room, HearingType.PTP);
-		Assert.assertTrue(hearing.blocks.size() == 1);
+		HearingScheduledEvent hearingScheduledEvent =  ScheduleHearingService.scheduleHearingForCase(new SchedulingHearingCommand("T300", room, HearingType.PTP));
+		Assert.assertTrue(hearingScheduledEvent.hearing.blocks.size() == 1);
 
 		// When all the documents are available before booked ptp hearing date
 		// we vacate ptp hearing
-		caseForDef.vacateHearingForCase(room, HearingType.PTP);
+		ScheduleHearingService.vacateHearingForCase(new VacateHearingCommand("T300", room, HearingType.PTP));
 		Assert.assertTrue(caseForDef.listOfHearing.size() == 0);
 
 		// And book a trail hearing which will be first available date from 28
 		// days before kpi date
-		hearing = caseForDef.scheduleHearingForCase(room, HearingType.TRIAL);
-		Assert.assertTrue(hearing.blocks.size() == 1);
+		hearingScheduledEvent =  ScheduleHearingService.scheduleHearingForCase(new SchedulingHearingCommand("T300", room, HearingType.TRIAL));
+		Assert.assertTrue(hearingScheduledEvent.hearing.blocks.size() == 1);
 
 	}
 }
