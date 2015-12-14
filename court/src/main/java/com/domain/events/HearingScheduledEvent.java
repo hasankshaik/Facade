@@ -1,13 +1,13 @@
 package com.domain.events;
 
-import com.domain.courtcase.Hearing;
+import com.domain.courtcase.Case;
 
 public class HearingScheduledEvent {
-	public Hearing hearing;
+	public Case caseHearing;
 
-	public HearingScheduledEvent(Hearing hearing) {
+	public HearingScheduledEvent(Case caseHearing) {
 		super();
-		this.hearing = hearing;
+		this.caseHearing = caseHearing;
 	}
 
 }

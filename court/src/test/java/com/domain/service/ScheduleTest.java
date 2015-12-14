@@ -13,6 +13,7 @@ import com.domain.courtcase.Case;
 import com.domain.courtcase.HearingType;
 import com.domain.db.InMemoryDB;
 import com.domain.events.HearingScheduledEvent;
+import com.domain.events.HearingVacatedEvent;
 import com.domain.panel.Judge;
 import com.domain.room.Block;
 import com.domain.room.BlockType;
@@ -56,17 +57,17 @@ public class ScheduleTest {
 
 		// Then PTP Hearing is booked on calculated date
 		HearingScheduledEvent hearingScheduledEvent =  ScheduleHearingService.scheduleHearingForCase(new SchedulingHearingCommand("T300", room, HearingType.PTP));
-		Assert.assertTrue(hearingScheduledEvent.hearing.blocks.size() == 1);
+		Assert.assertTrue(hearingScheduledEvent.caseHearing.listOfHearing.size() == 1);
 
 		// When all the documents are available before booked ptp hearing date
 		// we vacate ptp hearing
-		ScheduleHearingService.vacateHearingForCase(new VacateHearingCommand("T300", room, HearingType.PTP));
-		Assert.assertTrue(caseForDef.listOfHearing.size() == 0);
+		HearingVacatedEvent hearingVacatedEvent=ScheduleHearingService.vacateHearingForCase(new VacateHearingCommand("T300", room, HearingType.PTP));
+		Assert.assertTrue(hearingVacatedEvent.casehearing.listOfHearing.size() == 0);
 
 		// And book a trail hearing which will be first available date from 28
 		// days before kpi date
 		hearingScheduledEvent =  ScheduleHearingService.scheduleHearingForCase(new SchedulingHearingCommand("T300", room, HearingType.TRIAL));
-		Assert.assertTrue(hearingScheduledEvent.hearing.blocks.size() == 1);
+		Assert.assertTrue(hearingScheduledEvent.caseHearing.listOfHearing.size() == 1);
 
 	}
 }
