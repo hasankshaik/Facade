@@ -8,6 +8,7 @@ import org.apache.commons.lang3.time.DateUtils;
 
 public class Room {
 	private int id;
+	private int courtcenterId;
 	private String name;
 	public List<Session> sessions = new ArrayList<Session>();
 
