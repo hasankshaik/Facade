@@ -12,7 +12,6 @@ public class Hearing {
 	public String caseId;
 	public Room courtRoom;
 	public HearingType hearingType;
-	public List<Block> blocks=new ArrayList<Block>();
 
 	public Hearing(String caseId,Date dateOfSending, Room courtRoom, HearingType hearingType) {
 		super();
@@ -24,7 +23,7 @@ public class Hearing {
 			for (Session session : sessions) {
 				session.blocks.forEach((b) -> {
 					if (b.blockType == BlockType.PTP) {
-						blocks.add(b);
+						b.bookHearing(this);
 					}
 				});
 			}
@@ -33,14 +32,14 @@ public class Hearing {
 			for (Session session : sessions) {
 				session.blocks.forEach((b) -> {
 					if (b.blockType == BlockType.TRIAL) {
-						blocks.add(b);
+						b.bookHearing(this);
 					}
 				});
 			}
 		} else {
 			throw new RuntimeException();
 		}
-		Validate.notEmpty(blocks);
+//		Validate.notEmpty(blocks);
 	}
 
 	private Date calculatePtpHearing(Date caseForDef) {
