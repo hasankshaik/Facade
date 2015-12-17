@@ -36,6 +36,14 @@
 //	@Test
 //	public void test() {
 //		// SetUp
+/*
+ * 
+ * 
+ * When a sitting pattern for court centre is set up in scheduling context all the rooms of 
+ * the court centre will have a session on weekday (excluding bank holidays)  for a year and  the session on tuesday will have a PTP and session on other weekdays will have Trial block type 
+ * A judge will be associated with the sessions on tuesday and a judge will be associated with sessions on other weekdays  
+ * 
+ * */
 //		Block ptpBlock = new Block(BlockType.PTP);
 //		Session session = new Session(DateUtils.addDays(new Date(), 28));
 //		session.addBlocks(Arrays.asList(ptpBlock));
@@ -69,4 +77,4 @@
 //		Assert.assertTrue(hearingScheduledEvent.caseHearing.listOfHearing.size() == 1);
 //
 //	}
-//}
+// }
