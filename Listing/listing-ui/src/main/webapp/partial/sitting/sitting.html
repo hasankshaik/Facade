@@ -1,0 +1,119 @@
+<div data-ng-controller="SittingController">
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-3" role="complementary">
+				
+			</div>
+			<div class="col-lg-9" role="main">
+				<div class="row">
+				    <h1>Sittings: {{courtCenter}}</h1>
+				    <hr />
+				</div>
+				<div class="col-lg-5">
+					<div class="row">
+						<div class="col-lg-6 row">
+							<h4>Select an year to see the listing</h4>
+							<select id="financialYears" ng-model="selectedFinancialYear" ng-options="year for year in financialYears" ng-change="getSittings(selectedFinancialYear)" class="form-control">
+								<option value="" selected="selected">Select an year...</option>
+							</select>
+						</div>
+
+						<div class="col-lg-12 row" ng-show="yearSelected">
+							<br /><br /><br /><br />
+							<h4>Annual Targets for {{selectedFinancialYear}}</h4>
+							<table class="table table-bordered table-striped table-condensed" id="annualTargetBlock">
+								<thead>
+									<tr>
+										<th></th>
+										<th>Annual Target</th>
+										<th>Annual Planned</th>
+										<th>Variance</th>
+									</tr>
+								</thead>
+								<tr>
+									<th>Annual Target</th>
+									<td>{{sittingTarget.annualTarget}}</td>
+									<td>{{annualActualSittingDays}}</td>
+									<td>{{annualActualSittingDays - sittingTarget.annualTarget}}</td>
+								</tr>
+								<tr>
+									<th>Monthly Sum</th>
+									<td>{{sittingTarget.monthlySum}}</td>
+								</tr>
+								<tr>
+									<th>Variance</th>
+									<td>{{sittingTarget.monthlySum - sittingTarget.annualTarget}}</td>
+								</tr>
+							</table>
+						</div>
+					</div>
+				</div>
+
+				<div class="col-lg-6" ng-show="yearSelected">
+					<form class="form-horizontal" role="form" name="setSittingDaysForm">
+						<div class="container" ng-show="yearSelected">
+							<h4>Set Annual Sitting Days Target for <span class="selected-year">{{selectedFinancialYear}}</span></h4>
+							<div class="form-group" ng-class="{ 'has-error' : setSittingDaysForm.sittingTargetInput.$invalid && !setSittingDaysForm.sittingTargetInput.$pristine}" >
+								<div class="col-md-4">
+									<input type="number" id="sittingTargetInput" name="sittingTargetInput" ng-model="sittingTarget.annualTarget" class="form-control" />
+								</div>
+								<div class="col-md-4">
+									<p ng-show="setSittingDaysForm.sittingTargetInput.$invalid" class="help-block">Number invalid.</p>
+								</div>
+							</div>
+	
+							<div class="form-group">
+								<div class="col-md-3">
+									<button type="button" id="setSittingButtonAnnual" class="btn btn-success" ng-click="setAnnualSittingDays()" ng-disabled="setSittingDaysForm.sittingTargetInput.$invalid && !setSittingDaysForm.sittingTargetInput.$pristine">Set</button>
+								</div>
+								<div class="col-md-3">
+									<p ng-show="sittingSavedMessage" class="help-block">{{ sittingSavedMessage }}</p>
+								</div>
+							</div>
+						</div>
+
+						<div class="container">
+							<br />
+							<h4>Set Monthly Sittings for {{selectedFinancialYear}}</h4>
+							<table class="table table-bordered table-striped table-condensed table-hover" id="monthlyTargetBlock">
+								<thead>
+									<tr>
+										<th>Period</th>
+										<th>Month</th>
+										<th>Target</th>
+										<th>Actual</th>
+										<th>Cumulative Variance</th>			
+									</tr>
+								</thead>
+								<tbody>
+									<tr form-cleaner ng-form="innerForm" ng-repeat="month in monthList">
+										<td>{{$index + 1}}.</td>
+										<td ng-init="monthStr = (month | date:'MMM')">{{monthStr}}</td>
+										<td>
+											<input type="number" id="{{monthStr}}TargetInput" name="monthlyTarget" ng-init="sittingTarget.monthlyTargets[monthStr]=sittingTarget.monthlyTargets[monthStr] || 0" ng-model="sittingTarget.monthlyTargets[monthStr]" style="width: 60px;" max="99999" min="0" ng-required/>
+											<p ng-show="innerForm.monthlyTarget.$invalid" class="help-block">number invalid</p>
+										</td>
+										<td>{{monthlyActuals[monthStr]}}</td>
+										<td>{{cumulativeVar[monthStr]}}</td>
+									</tr>
+								</tbody>
+							</table>
+
+							<div class="form-group">
+								<div class="col-md-3">
+									<button type="button" id="setSittingButtonMonthly" class="btn btn-success" ng-click="setMonthlySittingDays()" ng-disabled="innerForm.monthlyTarget.$invalid">Set</button>
+								</div>
+								<div class="col-md-3">
+									<p ng-show="sittingSavedMessage" class="help-block">{{ sittingSavedMessage }}</p>
+								</div>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+

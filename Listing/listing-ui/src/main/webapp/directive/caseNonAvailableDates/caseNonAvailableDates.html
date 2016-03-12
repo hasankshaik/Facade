@@ -1,0 +1,131 @@
+<div>
+	<!-- Non available dates : Start -->
+	<div class="row">
+		<div class="container">
+			<h3 class="col-md-3">Non-Availability:</h3>
+			<div class="col-md-4" ng-if="case.crestData.crustNonAvailableDateList == 0">
+				<br />
+				<p id="emptyNonAvailableDate">No Non Available Date</p>
+			</div>
+		</div>
+
+		<div class="container">
+			<div ng-if="case.crestData.crustNonAvailableDateList.length > 0">
+				<div class="table-responsive col-md-12">
+					<table class="table table-bordered table-condensed" id="NonAvailableDateTable">
+						<thead>
+							<tr>
+								<th class="col-md-6">Reason</th>
+								<th class="col-md-2">Start Date</th>
+								<th class="col-md-2">End date</th>
+								<th class="col-md-2"></th>
+							</tr>
+						</thead>
+						<tbody>
+
+							<tr ng-repeat="nonAvailableDate in case.crestData.crustNonAvailableDateList track by $index">
+								<td class="col-md-6">
+									<input id="nonAvailableReasonSelected{{$index}}" ng-model="nonAvailableDate.reason" value="{{nonAvailableDate.reason}}">
+								</td>
+
+								<td class="col-md-2">
+									<div date-format obj="case" model="nonAvailableDate.startDate" name="nonAvailableStartDateSelected" index="{{$index}}" form-name="" loop="true"></div>
+								</td>
+
+								<td class="col-md-2">
+									<div date-format obj="case" model="nonAvailableDate.endDate" name="nonAvailableEndDateSelected" index="{{$index}}" form-name="" loop="true"></div>
+								</td>
+								<td class="col-md-2">
+									<button id="editNonAvailabileDate{{$index}}" class="btn btn-success"
+										ng-click="editNonAvailabileDate(nonAvailableDate, case.crestData.crestCaseNumber)">
+										Save
+									</button>
+									<button id="deleteNonAvailabileDate{{$index}}" class="btn btn-warning"
+										ng-click="deleteNonAvailabileDate(nonAvailableDate.id, case.crestData.crestCaseNumber)">
+										Delete
+									</button>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Non available dates : End -->
+
+	<!-- Add Non available dates Panel: Start -->
+	<div class="container">
+
+		<div class="form-group">
+			<div class="col-md-3">
+				<button id="addNonAvailableDateButton" class="btn btn-success" 
+					ng-click="addNonAvailableDate()" 
+					ng-show="!showAddNonAvailableDate">
+					Add Non Available Date
+				</button>
+ 			</div>
+ 			<div class="col-md-4">
+	 			<p id="addNonAvailableDateMessage" 
+	 				ng-show="nonAvailableDateSaveMessage">
+	 				{{nonAvailableDateSaveMessage}}
+	 			</p>
+	 			<p id="updateNonAvailableDateMessage" 
+	 				ng-show="updateNonAvailableDateMessage">
+	 				{{updateNonAvailableDateMessage}}
+	 			</p>				 	
+	 		</div>
+		</div>
+
+		<form class="form-horizontal" role="form" name="nonAvailableDateForm" novalidate>
+			<div id="showAddNonAvailableDatePanel" ng-show="showAddNonAvailableDate">
+				
+				<div class="form-group">
+					<label class="col-md-3 control-label" for="notAvailabilityReason">
+					Reason*:
+					</label>
+					<div class="col-md-4">
+						<textarea 
+							class="form-control" id="notAvailabilityReason" name="notAvailabilityReason"
+							ng-model="notAvailabilityReason"
+							ng-maxlength="100"
+							required>
+						</textarea>
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label class="col-md-3 control-label" for="notAvailabilityStartDate">Start Date*:</label>
+					<div class="col-md-4">
+						<div date-format obj="case" model="notAvailabilityStartDate" name="notAvailabilityStartDate" form-name="nonAvailableDateForm" loop="true"></div>
+					</div>
+				</div>
+				
+				<div class="form-group">
+					<label class="col-md-3 control-label" for="notAvailabilityEndDate">End Date*:</label>
+					<div class="col-md-4">
+						<div date-format obj="case" model="notAvailabilityEndDate" name="notAvailabilityEndDate" form-name="nonAvailableDateForm" loop="true"></div>
+					</div>
+				</div>
+				
+				<div class="form-group">
+					<div class="col-md-1 col-md-offset-3">
+				 		<button id="saveNonAvailableDateButton" class="btn btn-success" 
+					 		ng-click="saveNonAvailableDate(case.crestData.crestCaseNumber)" 
+					 		ng-disabled="nonAvailableDateForm.notAvailabilityReason.$invalid || nonAvailableDateForm.notAvailabilityStartDate.$invalid || nonAvailableDateForm.notAvailabilityEndDate.$invalid">
+					 		Add
+		 				</button>
+		 			</div>
+		 			<div class="col-md-4 control-label">
+						<p id="errorLenghtAvailabilityMessage" 
+						ng-show="nonAvailableDateForm.notAvailabilityReason.$invalid && nonAvailableDateForm.notAvailabilityReason.$dirty">
+						Reason is mandatory and can not exceeded maximum field length
+						</p>
+					</div>
+
+				</div>
+			</div>
+		</form>
+	</div>
+	<!-- Add Non Available Date Panel: End -->
+</div>

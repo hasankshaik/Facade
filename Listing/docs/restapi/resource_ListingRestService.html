@@ -1,0 +1,1089 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+
+  <title>REST API: ListingRestService</title>
+
+  <!-- Mobile viewport optimized: j.mp/bplateviewport -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+
+  <!--custom css for these pages-->
+  <link rel="stylesheet" href="css/style.css">
+
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/prettify/r298/prettify.css" type="text/css">
+
+  <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+  <!--[if lt IE 9]>
+  <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+  <![endif]-->
+</head>
+
+<body data-spy="scroll" data-target="#apinav">
+
+  <nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="index.html">REST API: ListingRestService</a>
+      </div>
+      <div id="navbar" class="navbar-collapse collapse">
+        <ul class="nav navbar-nav navbar-right">
+          <li><a href="resources.html">Resources</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-sm-3 col-md-2 sidebar" id="apinav">
+        <ul class="nav nav-sidebar">
+          <li><a href="#resource_ListingRestService_uploadFile_POST">POST /listing/upload</a></li>
+          <li><a href="#resource_ListingRestService_getCrestDataProcessingStatus_GET">GET /listing/crestdata/status</a></li>
+          <li><a href="#resource_ListingRestService_getCourtCenters_GET">GET /listing/courtcenters</a></li>
+          <li><a href="#resource_ListingRestService_getCourtRooms_GET"><abbr title="GET /listing/courtrooms/centername/{courtCenterName}">GET /listing/courtrooms/center...</abbr></a></li>
+          <li><a href="#resource_ListingRestService_getCourtRoomSitting_GET"><abbr title="GET /listing/planner/{courtCenterName}/daterange/{startdate}/{enddate}">GET /listing/planner/{courtCen...</abbr></a></li>
+          <li><a href="#resource_ListingRestService_getCourtCase_GET"><abbr title="GET /listing/case/{crestCaseNumber}">GET /listing/case/{crestCaseNu...</abbr></a></li>
+          <li><a href="#resource_ListingRestService_saveUpdateCaseRelated_POST">POST /listing/casesRelated</a></li>
+          <li><a href="#resource_ListingRestService_addDefendentsForCase_POST"><abbr title="POST /listing/casesRelated/Defendent">POST /listing/casesRelated/Def...</abbr></a></li>
+          <li><a href="#resource_ListingRestService_addCaseNoteForCase_POST"><abbr title="POST /listing/casesRelated/casenote">POST /listing/casesRelated/cas...</abbr></a></li>
+          <li><a href="#resource_ListingRestService_addLinkedCaseForCase_POST"><abbr title="POST /listing/casesRelated/linkedcase">POST /listing/casesRelated/lin...</abbr></a></li>
+          <li><a href="#resource_ListingRestService_addNotAvailableDateForCase_POST"><abbr title="POST /listing/casesRelated/notavailabledate">POST /listing/casesRelated/not...</abbr></a></li>
+          <li><a href="#resource_ListingRestService_deleteNotAvailableDateForCase_DELETE"><abbr title="DELETE /listing/casesRelated/notavailabledate">DELETE /listing/casesRelated/n...</abbr></a></li>
+          <li><a href="#resource_ListingRestService_saveUpdateHearing_POST">POST /listing/hearings</a></li>
+          <li><a href="#resource_ListingRestService_listHearing_POST">POST /listing/hearings/list</a></li>
+          <li><a href="#resource_ListingRestService_reListingHearing_POST">POST /listing/hearings/relist</a></li>
+          <li><a href="#resource_ListingRestService_getHearing_GET">GET /listing/hearings/unlisted</a></li>
+          <li><a href="#resource_ListingRestService_unListingHearing_DELETE"><abbr title="DELETE /listing/hearings/{hearingKey}/{hearingStatus}">DELETE /listing/hearings/{hear...</abbr></a></li>
+          <li><a href="#resource_ListingRestService_getHearingDetail_GET"><abbr title="GET /listing/hearings/{hearingKey}">GET /listing/hearings/{hearing...</abbr></a></li>
+          <li><a href="#resource_ListingRestService_getPcmHearingForAction_GET"><abbr title="GET /listing/hearings/foraction">GET /listing/hearings/foractio...</abbr></a></li>
+          <li><a href="#resource_ListingRestService_updatePcmHearingStatus_POST"><abbr title="POST /listing/hearings/pcmhaction">POST /listing/hearings/pcmhact...</abbr></a></li>
+          <li><a href="#resource_ListingRestService_getHearingSlotDates_GET"><abbr title="GET /listing/hearing/slots/{courtCentreName}/{hearingEstimate}/{overbook}">GET /listing/hearing/slots/{co...</abbr></a></li>
+          <li><a href="#resource_ListingRestService_getLogoutUrl_GET">GET /listing/logout</a></li>
+          <li><a href="#resource_ListingRestService_removeDefendantForCase_DELETE"><abbr title="DELETE /listing/casesRelated/personInCase/{crestCaseNumber}/{personFullName}">DELETE /listing/casesRelated/p...</abbr></a></li>
+          <li><a href="#resource_ListingRestService_removeCaseNoteForCase_DELETE"><abbr title="DELETE /listing/casesRelated/casenote/{crestCaseNumber}/{description}">DELETE /listing/casesRelated/c...</abbr></a></li>
+          <li><a href="#resource_ListingRestService_removeLinkedCaseForCase_DELETE"><abbr title="DELETE /listing/casesRelated/linkedcase/{centerName}/{crestCaseNumber}/{crestLinkedNumber}">DELETE /listing/casesRelated/l...</abbr></a></li>
+          <li><a href="#resource_ListingRestService_getOffenceClass_GET"><abbr title="GET /listing/enums/offenceclass">GET /listing/enums/offenceclas...</abbr></a></li>
+          <li><a href="#resource_ListingRestService_getTicketingRequirement_GET"><abbr title="GET /listing/enums/ticketingrequirement">GET /listing/enums/ticketingre...</abbr></a></li>
+          <li><a href="#resource_ListingRestService_getReleaseDecision_GET"><abbr title="GET /listing/enums/releasedecision">GET /listing/enums/releasedeci...</abbr></a></li>
+          <li><a href="#resource_ListingRestService_getCustodyStatus_GET"><abbr title="GET /listing/enums/custodystatus">GET /listing/enums/custodystat...</abbr></a></li>
+          <li><a href="#resource_ListingRestService_getTimeUnits_GET">GET /listing/enums/timeunits</a></li>
+          <li><a href="#resource_ListingRestService_getProcessingStatus_GET"><abbr title="GET /listing/enums/processingstatus">GET /listing/enums/processings...</abbr></a></li>
+          <li><a href="#resource_ListingRestService_getSessionBlockType_GET"><abbr title="GET /listing/enums/sessionblocktype">GET /listing/enums/sessionbloc...</abbr></a></li>
+          <li class="divider"></li>
+          <li class="text-right"><a href="#top"><small>Back to Top</small></a></li>
+        </ul>
+      </div>
+
+      <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+        <ol class="breadcrumb" id="top">
+          <li class="active dropdown"><a href="index.html">Home</a></li>
+          <li class="active dropdown"><a href="resources.html">Resources</a></li>
+          <li class="dropdown"><a href="resource_ListingRestService.html">ListingRestService</a></li>
+        </ol>
+
+      <h1 class="page-header">ListingRestService <small>Resource</small></h1>
+
+      <p></p>
+
+      <div id="resource_ListingRestService_uploadFile_POST">
+        <h3>POST <small>/listing/upload <a href="./listing/upload" class="glyphicon glyphicon-new-window" target="_blank"></a></small></h3>
+
+        <p></p>
+
+        <table class="table">
+          <caption>Request Parameters</caption>
+          <thead>
+          <tr>
+            <th>name</th>
+            <th>type</th>
+            <th>description</th>
+            <th>default</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr>
+            <td>fileDetail</td>
+            <td>formdata</td>
+            <td></td>
+            <td>n/a</td>
+          </tr>
+          <tr>
+            <td>uploadedInputStream</td>
+            <td>formdata</td>
+            <td></td>
+            <td>n/a</td>
+          </tr>
+          </tbody>
+        </table>
+
+        <table class="table">
+          <caption>Response Body</caption>
+          <thead>
+          <tr>
+            <th>media type</th>
+            <th>data type</th>
+          </tr>
+          </thead>
+          <tbody>
+          </tbody>
+        </table>
+      </div>
+
+      <div id="resource_ListingRestService_getCrestDataProcessingStatus_GET">
+        <h3>GET <small>/listing/crestdata/status <a href="./listing/crestdata/status" class="glyphicon glyphicon-new-window" target="_blank"></a></small></h3>
+
+        <p></p>
+
+        <table class="table">
+          <caption>Response Body</caption>
+          <thead>
+          <tr>
+            <th>media type</th>
+            <th>data type</th>
+          </tr>
+          </thead>
+          <tbody>
+          </tbody>
+        </table>
+      </div>
+
+      <div id="resource_ListingRestService_getCourtCenters_GET">
+        <h3>GET <small>/listing/courtcenters <a href="./listing/courtcenters" class="glyphicon glyphicon-new-window" target="_blank"></a></small></h3>
+
+        <p></p>
+
+        <table class="table">
+          <caption>Response Body</caption>
+          <thead>
+          <tr>
+            <th>media type</th>
+            <th>data type</th>
+          </tr>
+          </thead>
+          <tbody>
+          </tbody>
+        </table>
+      </div>
+
+      <div id="resource_ListingRestService_getCourtRooms_GET">
+        <h3>GET <small>/listing/courtrooms/centername/{courtCenterName} <a href="./listing/courtrooms/centername/{courtCenterName}" class="glyphicon glyphicon-new-window" target="_blank"></a></small></h3>
+
+        <p></p>
+
+        <table class="table">
+          <caption>Request Parameters</caption>
+          <thead>
+          <tr>
+            <th>name</th>
+            <th>type</th>
+            <th>description</th>
+            <th>default</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr>
+            <td>courtCenterName</td>
+            <td>path</td>
+            <td></td>
+            <td>n/a</td>
+          </tr>
+          </tbody>
+        </table>
+
+        <table class="table">
+          <caption>Response Body</caption>
+          <thead>
+          <tr>
+            <th>media type</th>
+            <th>data type</th>
+          </tr>
+          </thead>
+          <tbody>
+          </tbody>
+        </table>
+      </div>
+
+      <div id="resource_ListingRestService_getCourtRoomSitting_GET">
+        <h3>GET <small>/listing/planner/{courtCenterName}/daterange/{startdate}/{enddate} <a href="./listing/planner/{courtCenterName}/daterange/{startdate}/{enddate}" class="glyphicon glyphicon-new-window" target="_blank"></a></small></h3>
+
+        <p></p>
+
+        <table class="table">
+          <caption>Request Parameters</caption>
+          <thead>
+          <tr>
+            <th>name</th>
+            <th>type</th>
+            <th>description</th>
+            <th>default</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr>
+            <td>courtCenterName</td>
+            <td>path</td>
+            <td></td>
+            <td>n/a</td>
+          </tr>
+          <tr>
+            <td>enddate</td>
+            <td>path</td>
+            <td></td>
+            <td>n/a</td>
+          </tr>
+          <tr>
+            <td>startdate</td>
+            <td>path</td>
+            <td></td>
+            <td>n/a</td>
+          </tr>
+          </tbody>
+        </table>
+
+        <table class="table">
+          <caption>Response Body</caption>
+          <thead>
+          <tr>
+            <th>media type</th>
+            <th>data type</th>
+          </tr>
+          </thead>
+          <tbody>
+          </tbody>
+        </table>
+      </div>
+
+      <div id="resource_ListingRestService_getCourtCase_GET">
+        <h3>GET <small>/listing/case/{crestCaseNumber} <a href="./listing/case/{crestCaseNumber}" class="glyphicon glyphicon-new-window" target="_blank"></a></small></h3>
+
+        <p></p>
+
+        <table class="table">
+          <caption>Request Parameters</caption>
+          <thead>
+          <tr>
+            <th>name</th>
+            <th>type</th>
+            <th>description</th>
+            <th>default</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr>
+            <td>crestCaseNumber</td>
+            <td>path</td>
+            <td></td>
+            <td>n/a</td>
+          </tr>
+          </tbody>
+        </table>
+
+        <table class="table">
+          <caption>Response Body</caption>
+          <thead>
+          <tr>
+            <th>media type</th>
+            <th>data type</th>
+          </tr>
+          </thead>
+          <tbody>
+          </tbody>
+        </table>
+      </div>
+
+      <div id="resource_ListingRestService_saveUpdateCaseRelated_POST">
+        <h3>POST <small>/listing/casesRelated <a href="./listing/casesRelated" class="glyphicon glyphicon-new-window" target="_blank"></a></small></h3>
+
+        <p></p>
+
+        <table class="table">
+          <caption>Request Body</caption>
+          <thead>
+          <tr>
+            <th>media type</th>
+            <th>data type</th>
+          </tr>
+          </thead>
+          <tbody>
+          </tbody>
+        </table>
+
+        <table class="table">
+          <caption>Response Body</caption>
+          <thead>
+          <tr>
+            <th>media type</th>
+            <th>data type</th>
+          </tr>
+          </thead>
+          <tbody>
+          </tbody>
+        </table>
+      </div>
+
+      <div id="resource_ListingRestService_addDefendentsForCase_POST">
+        <h3>POST <small>/listing/casesRelated/Defendent <a href="./listing/casesRelated/Defendent" class="glyphicon glyphicon-new-window" target="_blank"></a></small></h3>
+
+        <p></p>
+
+        <table class="table">
+          <caption>Request Body</caption>
+          <thead>
+          <tr>
+            <th>media type</th>
+            <th>data type</th>
+          </tr>
+          </thead>
+          <tbody>
+          </tbody>
+        </table>
+
+        <table class="table">
+          <caption>Response Body</caption>
+          <thead>
+          <tr>
+            <th>media type</th>
+            <th>data type</th>
+          </tr>
+          </thead>
+          <tbody>
+          </tbody>
+        </table>
+      </div>
+
+      <div id="resource_ListingRestService_addCaseNoteForCase_POST">
+        <h3>POST <small>/listing/casesRelated/casenote <a href="./listing/casesRelated/casenote" class="glyphicon glyphicon-new-window" target="_blank"></a></small></h3>
+
+        <p></p>
+
+        <table class="table">
+          <caption>Request Body</caption>
+          <thead>
+          <tr>
+            <th>media type</th>
+            <th>data type</th>
+          </tr>
+          </thead>
+          <tbody>
+          </tbody>
+        </table>
+
+        <table class="table">
+          <caption>Response Body</caption>
+          <thead>
+          <tr>
+            <th>media type</th>
+            <th>data type</th>
+          </tr>
+          </thead>
+          <tbody>
+          </tbody>
+        </table>
+      </div>
+
+      <div id="resource_ListingRestService_addLinkedCaseForCase_POST">
+        <h3>POST <small>/listing/casesRelated/linkedcase <a href="./listing/casesRelated/linkedcase" class="glyphicon glyphicon-new-window" target="_blank"></a></small></h3>
+
+        <p></p>
+
+        <table class="table">
+          <caption>Request Body</caption>
+          <thead>
+          <tr>
+            <th>media type</th>
+            <th>data type</th>
+          </tr>
+          </thead>
+          <tbody>
+          </tbody>
+        </table>
+
+        <table class="table">
+          <caption>Response Body</caption>
+          <thead>
+          <tr>
+            <th>media type</th>
+            <th>data type</th>
+          </tr>
+          </thead>
+          <tbody>
+          </tbody>
+        </table>
+      </div>
+
+      <div id="resource_ListingRestService_addNotAvailableDateForCase_POST">
+        <h3>POST <small>/listing/casesRelated/notavailabledate <a href="./listing/casesRelated/notavailabledate" class="glyphicon glyphicon-new-window" target="_blank"></a></small></h3>
+
+        <p></p>
+
+        <table class="table">
+          <caption>Request Body</caption>
+          <thead>
+          <tr>
+            <th>media type</th>
+            <th>data type</th>
+          </tr>
+          </thead>
+          <tbody>
+          </tbody>
+        </table>
+
+        <table class="table">
+          <caption>Response Body</caption>
+          <thead>
+          <tr>
+            <th>media type</th>
+            <th>data type</th>
+          </tr>
+          </thead>
+          <tbody>
+          </tbody>
+        </table>
+      </div>
+
+      <div id="resource_ListingRestService_deleteNotAvailableDateForCase_DELETE">
+        <h3>DELETE <small>/listing/casesRelated/notavailabledate <a href="./listing/casesRelated/notavailabledate" class="glyphicon glyphicon-new-window" target="_blank"></a></small></h3>
+
+        <p></p>
+
+        <table class="table">
+          <caption>Request Body</caption>
+          <thead>
+          <tr>
+            <th>media type</th>
+            <th>data type</th>
+          </tr>
+          </thead>
+          <tbody>
+          </tbody>
+        </table>
+
+        <table class="table">
+          <caption>Response Body</caption>
+          <thead>
+          <tr>
+            <th>media type</th>
+            <th>data type</th>
+          </tr>
+          </thead>
+          <tbody>
+          </tbody>
+        </table>
+      </div>
+
+      <div id="resource_ListingRestService_saveUpdateHearing_POST">
+        <h3>POST <small>/listing/hearings <a href="./listing/hearings" class="glyphicon glyphicon-new-window" target="_blank"></a></small></h3>
+
+        <p></p>
+
+        <table class="table">
+          <caption>Request Body</caption>
+          <thead>
+          <tr>
+            <th>media type</th>
+            <th>data type</th>
+          </tr>
+          </thead>
+          <tbody>
+          </tbody>
+        </table>
+
+        <table class="table">
+          <caption>Response Body</caption>
+          <thead>
+          <tr>
+            <th>media type</th>
+            <th>data type</th>
+          </tr>
+          </thead>
+          <tbody>
+          </tbody>
+        </table>
+      </div>
+
+      <div id="resource_ListingRestService_listHearing_POST">
+        <h3>POST <small>/listing/hearings/list <a href="./listing/hearings/list" class="glyphicon glyphicon-new-window" target="_blank"></a></small></h3>
+
+        <p></p>
+
+        <table class="table">
+          <caption>Request Body</caption>
+          <thead>
+          <tr>
+            <th>media type</th>
+            <th>data type</th>
+          </tr>
+          </thead>
+          <tbody>
+          </tbody>
+        </table>
+
+        <table class="table">
+          <caption>Response Body</caption>
+          <thead>
+          <tr>
+            <th>media type</th>
+            <th>data type</th>
+          </tr>
+          </thead>
+          <tbody>
+          </tbody>
+        </table>
+      </div>
+
+      <div id="resource_ListingRestService_reListingHearing_POST">
+        <h3>POST <small>/listing/hearings/relist <a href="./listing/hearings/relist" class="glyphicon glyphicon-new-window" target="_blank"></a></small></h3>
+
+        <p></p>
+
+        <table class="table">
+          <caption>Request Body</caption>
+          <thead>
+          <tr>
+            <th>media type</th>
+            <th>data type</th>
+          </tr>
+          </thead>
+          <tbody>
+          </tbody>
+        </table>
+
+        <table class="table">
+          <caption>Response Body</caption>
+          <thead>
+          <tr>
+            <th>media type</th>
+            <th>data type</th>
+          </tr>
+          </thead>
+          <tbody>
+          </tbody>
+        </table>
+      </div>
+
+      <div id="resource_ListingRestService_getHearing_GET">
+        <h3>GET <small>/listing/hearings/unlisted <a href="./listing/hearings/unlisted" class="glyphicon glyphicon-new-window" target="_blank"></a></small></h3>
+
+        <p></p>
+
+        <table class="table">
+          <caption>Response Body</caption>
+          <thead>
+          <tr>
+            <th>media type</th>
+            <th>data type</th>
+          </tr>
+          </thead>
+          <tbody>
+          </tbody>
+        </table>
+      </div>
+
+      <div id="resource_ListingRestService_unListingHearing_DELETE">
+        <h3>DELETE <small>/listing/hearings/{hearingKey}/{hearingStatus} <a href="./listing/hearings/{hearingKey}/{hearingStatus}" class="glyphicon glyphicon-new-window" target="_blank"></a></small></h3>
+
+        <p></p>
+
+        <table class="table">
+          <caption>Request Parameters</caption>
+          <thead>
+          <tr>
+            <th>name</th>
+            <th>type</th>
+            <th>description</th>
+            <th>default</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr>
+            <td>hearingKey</td>
+            <td>path</td>
+            <td></td>
+            <td>n/a</td>
+          </tr>
+          <tr>
+            <td>hearingStatus</td>
+            <td>path</td>
+            <td></td>
+            <td>n/a</td>
+          </tr>
+          </tbody>
+        </table>
+
+        <table class="table">
+          <caption>Response Body</caption>
+          <thead>
+          <tr>
+            <th>media type</th>
+            <th>data type</th>
+          </tr>
+          </thead>
+          <tbody>
+          </tbody>
+        </table>
+      </div>
+
+      <div id="resource_ListingRestService_getHearingDetail_GET">
+        <h3>GET <small>/listing/hearings/{hearingKey} <a href="./listing/hearings/{hearingKey}" class="glyphicon glyphicon-new-window" target="_blank"></a></small></h3>
+
+        <p></p>
+
+        <table class="table">
+          <caption>Request Parameters</caption>
+          <thead>
+          <tr>
+            <th>name</th>
+            <th>type</th>
+            <th>description</th>
+            <th>default</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr>
+            <td>hearingKey</td>
+            <td>path</td>
+            <td></td>
+            <td>n/a</td>
+          </tr>
+          </tbody>
+        </table>
+
+        <table class="table">
+          <caption>Response Body</caption>
+          <thead>
+          <tr>
+            <th>media type</th>
+            <th>data type</th>
+          </tr>
+          </thead>
+          <tbody>
+          </tbody>
+        </table>
+      </div>
+
+      <div id="resource_ListingRestService_getPcmHearingForAction_GET">
+        <h3>GET <small>/listing/hearings/foraction <a href="./listing/hearings/foraction" class="glyphicon glyphicon-new-window" target="_blank"></a></small></h3>
+
+        <p></p>
+
+        <table class="table">
+          <caption>Response Body</caption>
+          <thead>
+          <tr>
+            <th>media type</th>
+            <th>data type</th>
+          </tr>
+          </thead>
+          <tbody>
+          </tbody>
+        </table>
+      </div>
+
+      <div id="resource_ListingRestService_updatePcmHearingStatus_POST">
+        <h3>POST <small>/listing/hearings/pcmhaction <a href="./listing/hearings/pcmhaction" class="glyphicon glyphicon-new-window" target="_blank"></a></small></h3>
+
+        <p></p>
+
+        <table class="table">
+          <caption>Request Body</caption>
+          <thead>
+          <tr>
+            <th>media type</th>
+            <th>data type</th>
+          </tr>
+          </thead>
+          <tbody>
+          </tbody>
+        </table>
+
+        <table class="table">
+          <caption>Response Body</caption>
+          <thead>
+          <tr>
+            <th>media type</th>
+            <th>data type</th>
+          </tr>
+          </thead>
+          <tbody>
+          </tbody>
+        </table>
+      </div>
+
+      <div id="resource_ListingRestService_getHearingSlotDates_GET">
+        <h3>GET <small>/listing/hearing/slots/{courtCentreName}/{hearingEstimate}/{overbook} <a href="./listing/hearing/slots/{courtCentreName}/{hearingEstimate}/{overbook}" class="glyphicon glyphicon-new-window" target="_blank"></a></small></h3>
+
+        <p>call this to get available slot dates together with the number of existing hearings per court-room</p>
+
+        <table class="table">
+          <caption>Request Parameters</caption>
+          <thead>
+          <tr>
+            <th>name</th>
+            <th>type</th>
+            <th>description</th>
+            <th>default</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr>
+            <td>courtCentreName</td>
+            <td>path</td>
+            <td></td>
+            <td>n/a</td>
+          </tr>
+          <tr>
+            <td>hearingEstimate</td>
+            <td>path</td>
+            <td></td>
+            <td>n/a</td>
+          </tr>
+          <tr>
+            <td>overbook</td>
+            <td>path</td>
+            <td></td>
+            <td>n/a</td>
+          </tr>
+          </tbody>
+        </table>
+
+        <table class="table">
+          <caption>Response Body</caption>
+          <thead>
+          <tr>
+            <th>media type</th>
+            <th>data type</th>
+          </tr>
+          </thead>
+          <tbody>
+          </tbody>
+        </table>
+      </div>
+
+      <div id="resource_ListingRestService_getLogoutUrl_GET">
+        <h3>GET <small>/listing/logout <a href="./listing/logout" class="glyphicon glyphicon-new-window" target="_blank"></a></small></h3>
+
+        <p></p>
+
+        <table class="table">
+          <caption>Response Body</caption>
+          <thead>
+          <tr>
+            <th>media type</th>
+            <th>data type</th>
+          </tr>
+          </thead>
+          <tbody>
+          </tbody>
+        </table>
+      </div>
+
+      <div id="resource_ListingRestService_removeDefendantForCase_DELETE">
+        <h3>DELETE <small>/listing/casesRelated/personInCase/{crestCaseNumber}/{personFullName} <a href="./listing/casesRelated/personInCase/{crestCaseNumber}/{personFullName}" class="glyphicon glyphicon-new-window" target="_blank"></a></small></h3>
+
+        <p></p>
+
+        <table class="table">
+          <caption>Request Parameters</caption>
+          <thead>
+          <tr>
+            <th>name</th>
+            <th>type</th>
+            <th>description</th>
+            <th>default</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr>
+            <td>crestCaseNumber</td>
+            <td>path</td>
+            <td></td>
+            <td>n/a</td>
+          </tr>
+          <tr>
+            <td>personFullName</td>
+            <td>path</td>
+            <td></td>
+            <td>n/a</td>
+          </tr>
+          </tbody>
+        </table>
+
+        <table class="table">
+          <caption>Response Body</caption>
+          <thead>
+          <tr>
+            <th>media type</th>
+            <th>data type</th>
+          </tr>
+          </thead>
+          <tbody>
+          </tbody>
+        </table>
+      </div>
+
+      <div id="resource_ListingRestService_removeCaseNoteForCase_DELETE">
+        <h3>DELETE <small>/listing/casesRelated/casenote/{crestCaseNumber}/{description} <a href="./listing/casesRelated/casenote/{crestCaseNumber}/{description}" class="glyphicon glyphicon-new-window" target="_blank"></a></small></h3>
+
+        <p></p>
+
+        <table class="table">
+          <caption>Request Parameters</caption>
+          <thead>
+          <tr>
+            <th>name</th>
+            <th>type</th>
+            <th>description</th>
+            <th>default</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr>
+            <td>crestCaseNumber</td>
+            <td>path</td>
+            <td></td>
+            <td>n/a</td>
+          </tr>
+          <tr>
+            <td>description</td>
+            <td>path</td>
+            <td></td>
+            <td>n/a</td>
+          </tr>
+          </tbody>
+        </table>
+
+        <table class="table">
+          <caption>Response Body</caption>
+          <thead>
+          <tr>
+            <th>media type</th>
+            <th>data type</th>
+          </tr>
+          </thead>
+          <tbody>
+          </tbody>
+        </table>
+      </div>
+
+      <div id="resource_ListingRestService_removeLinkedCaseForCase_DELETE">
+        <h3>DELETE <small>/listing/casesRelated/linkedcase/{centerName}/{crestCaseNumber}/{crestLinkedNumber} <a href="./listing/casesRelated/linkedcase/{centerName}/{crestCaseNumber}/{crestLinkedNumber}" class="glyphicon glyphicon-new-window" target="_blank"></a></small></h3>
+
+        <p></p>
+
+        <table class="table">
+          <caption>Request Parameters</caption>
+          <thead>
+          <tr>
+            <th>name</th>
+            <th>type</th>
+            <th>description</th>
+            <th>default</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr>
+            <td>centerName</td>
+            <td>path</td>
+            <td></td>
+            <td>n/a</td>
+          </tr>
+          <tr>
+            <td>crestCaseNumber</td>
+            <td>path</td>
+            <td></td>
+            <td>n/a</td>
+          </tr>
+          <tr>
+            <td>crestLinkedNumber</td>
+            <td>path</td>
+            <td></td>
+            <td>n/a</td>
+          </tr>
+          </tbody>
+        </table>
+
+        <table class="table">
+          <caption>Response Body</caption>
+          <thead>
+          <tr>
+            <th>media type</th>
+            <th>data type</th>
+          </tr>
+          </thead>
+          <tbody>
+          </tbody>
+        </table>
+      </div>
+
+      <div id="resource_ListingRestService_getOffenceClass_GET">
+        <h3>GET <small>/listing/enums/offenceclass <a href="./listing/enums/offenceclass" class="glyphicon glyphicon-new-window" target="_blank"></a></small></h3>
+
+        <p></p>
+
+        <table class="table">
+          <caption>Response Body</caption>
+          <thead>
+          <tr>
+            <th>media type</th>
+            <th>data type</th>
+          </tr>
+          </thead>
+          <tbody>
+          </tbody>
+        </table>
+      </div>
+
+      <div id="resource_ListingRestService_getTicketingRequirement_GET">
+        <h3>GET <small>/listing/enums/ticketingrequirement <a href="./listing/enums/ticketingrequirement" class="glyphicon glyphicon-new-window" target="_blank"></a></small></h3>
+
+        <p></p>
+
+        <table class="table">
+          <caption>Response Body</caption>
+          <thead>
+          <tr>
+            <th>media type</th>
+            <th>data type</th>
+          </tr>
+          </thead>
+          <tbody>
+          </tbody>
+        </table>
+      </div>
+
+      <div id="resource_ListingRestService_getReleaseDecision_GET">
+        <h3>GET <small>/listing/enums/releasedecision <a href="./listing/enums/releasedecision" class="glyphicon glyphicon-new-window" target="_blank"></a></small></h3>
+
+        <p></p>
+
+        <table class="table">
+          <caption>Response Body</caption>
+          <thead>
+          <tr>
+            <th>media type</th>
+            <th>data type</th>
+          </tr>
+          </thead>
+          <tbody>
+          </tbody>
+        </table>
+      </div>
+
+      <div id="resource_ListingRestService_getCustodyStatus_GET">
+        <h3>GET <small>/listing/enums/custodystatus <a href="./listing/enums/custodystatus" class="glyphicon glyphicon-new-window" target="_blank"></a></small></h3>
+
+        <p></p>
+
+        <table class="table">
+          <caption>Response Body</caption>
+          <thead>
+          <tr>
+            <th>media type</th>
+            <th>data type</th>
+          </tr>
+          </thead>
+          <tbody>
+          </tbody>
+        </table>
+      </div>
+
+      <div id="resource_ListingRestService_getTimeUnits_GET">
+        <h3>GET <small>/listing/enums/timeunits <a href="./listing/enums/timeunits" class="glyphicon glyphicon-new-window" target="_blank"></a></small></h3>
+
+        <p></p>
+
+        <table class="table">
+          <caption>Response Body</caption>
+          <thead>
+          <tr>
+            <th>media type</th>
+            <th>data type</th>
+          </tr>
+          </thead>
+          <tbody>
+          </tbody>
+        </table>
+      </div>
+
+      <div id="resource_ListingRestService_getProcessingStatus_GET">
+        <h3>GET <small>/listing/enums/processingstatus <a href="./listing/enums/processingstatus" class="glyphicon glyphicon-new-window" target="_blank"></a></small></h3>
+
+        <p></p>
+
+        <table class="table">
+          <caption>Response Body</caption>
+          <thead>
+          <tr>
+            <th>media type</th>
+            <th>data type</th>
+          </tr>
+          </thead>
+          <tbody>
+          </tbody>
+        </table>
+      </div>
+
+      <div id="resource_ListingRestService_getSessionBlockType_GET">
+        <h3>GET <small>/listing/enums/sessionblocktype <a href="./listing/enums/sessionblocktype" class="glyphicon glyphicon-new-window" target="_blank"></a></small></h3>
+
+        <p></p>
+
+        <table class="table">
+          <caption>Response Body</caption>
+          <thead>
+          <tr>
+            <th>media type</th>
+            <th>data type</th>
+          </tr>
+          </thead>
+          <tbody>
+          </tbody>
+        </table>
+      </div>
+
+        <footer class="footer">
+          <div class="container">
+            <p class="text-muted">Generated by <a href="http://enunciate.webcohesion.com">Enunciate</a>.</p>
+          </div>
+        </footer>
+
+      </div>
+    </div>
+  </div>
+
+
+  <!-- JavaScript placed at the end of the document so the pages load faster. -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+
+  <!-- Bootstrap core JavaScript
+  ================================================== -->
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+
+  <!-- prettify code blocks. see http://code.google.com/p/google-code-prettify/ -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prettify/r298/run_prettify.js" type="text/javascript"></script>
+  <script>
+    $(function() {
+      $(".clickable-row").click(function() {
+        window.document.location = $(this).data("href");
+      });
+
+      $('[data-toggle="tooltip"]').tooltip()
+    });
+  </script>
+
+</body>
+</html>

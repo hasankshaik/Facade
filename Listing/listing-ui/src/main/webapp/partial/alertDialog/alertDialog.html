@@ -1,0 +1,13 @@
+<div class="modal-dialog">
+    <div class="modal-header">
+        <h4 class="modal-title">{{headerMessage}}</h4>
+    </div>
+    <div class="modal-body">
+        <span id="alertBodyMessage" value="{{bodyMessage}}">{{bodyMessage}}</span>
+    </div>
+    <div class="modal-footer">
+        <button id="saveButton" type="button" class="btn btn-default" ng-click="save()">Yes</button>
+        <button id="cancelButton" type="button" class="btn btn-primary" ng-click="$dismiss()">No</button>
+    </div>
+</div>
+

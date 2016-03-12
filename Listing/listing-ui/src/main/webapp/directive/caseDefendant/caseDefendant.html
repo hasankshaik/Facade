@@ -1,0 +1,147 @@
+<div>
+	<!-- Defendants : Start -->
+	<div class="row" ng-init="init()">
+		<div class="container">
+			<h3 class="col-md-3">Defendants:</h3>
+			<div class="col-md-4" ng-if="case.crestData.personInCaseList.length == 0">
+				<br />
+				<p id="emptyDefendants">No Defendants</p>
+			</div>
+		</div>
+
+		<div class="container">
+			<div ng-if="case.crestData.personInCaseList.length > 0">
+				<div class="table-responsive col-md-12">
+					<table class="table table-bordered table-condensed table-striped" id="peopleInCase">
+						<thead>
+							<tr>
+								<th class="col-md-2">Name</th>
+								<th class="col-md-2">Case URN</th>
+								<th class="col-md-2">Status</th>
+								<th class="col-md-2">CTL Expires on</th>
+								<th class="col-md-2">Days for CTL Expiry</th>
+								<th class="col-md-2"></th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr ng-repeat="personInCase in case.crestData.personInCaseList track by $index | orderBy: 'personInCase.fullname' ">
+								<td class="col-md-2">
+									<input id="personInCaseFullnameSelected{{$index}}" ng-model="personInCase.fullname" value="{{personInCase.fullname}}">
+								</td>
+								<td class="col-md-2">
+									<input id="personInCaseCrestURNSelected{{$index}}" ng-model="personInCase.crestURN" value="{{personInCase.crestURN}}">
+								</td>
+
+								<td class="col-md-2">
+									<select id="personInCaseCustodyStatusSelected{{$index}}"
+									class="form-control"
+									name="personInCaseCustodyStatusSelected"
+									ng-model="personInCase.custodyStatus"
+									required>
+										<option ng-repeat="personInCaseCustodyStatus in custodyStatusList">{{personInCaseCustodyStatus}}</option>
+									</select>
+								</td>
+
+								<td class="col-md-2">
+									<div date-format obj="case" model="personInCase.ctlExpiryDate" name="personInCaseCtlExpiryDateSelected" index="{{$index}}" form-name="" loop="true"></div>
+								</td>
+								<td class="col-md-2" id="personInCasenoOfDayForCTLExpiry{{$index}}">{{personInCase.noOfDayForCTLExpiry}}</td>
+								<td class="col-md-2">
+									<button id="editPersonInCase{{$index}}" class="btn btn-success"
+										ng-click="editDefendant(personInCase, case.crestData.crestCaseNumber)">
+										Save
+									</button>
+									<button id="removePersonInCase{{$index}}" class="btn btn-warning"
+										ng-click="deleteDefendant(personInCase, case.crestData.crestCaseNumber)">
+										Delete
+									</button>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Defendants : End -->
+
+	<!-- Add Defendant Panel: Start -->
+	<div class="container">
+
+		<div class="form-group">
+			<div class="col-md-3">
+				<button id="addDefendentButton" class="btn btn-success"
+					ng-click="addDefendant()"
+					ng-show="!showAddDefendant">
+					Add Defendant
+				</button>
+ 			</div>
+ 			<div class="col-md-4">
+	 			<p id="errorAddMessage"
+	 				ng-show="defendantSaveMessage">
+	 				{{defendantSaveMessage}}
+	 			</p>
+	 			<p id="errorRemoveMessage"
+	 				ng-show="defendantUpdatedMessage">
+	 				{{defendantUpdatedMessage}}
+	 			</p>
+	 		</div>
+		</div>
+
+		<form name="defendantForm">
+			<div id="showAddDefendantPanel" ng-show="showAddDefendant">
+				<div class="form-group">
+					<label class="col-md-3 control-label" for="defendantName">Defendant Name*:</label>
+					<div class="col-md-4">
+						<input class="form-control" id="defendantName" name="defendantName"
+							ng-model="defendantName" required>
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label class="col-md-3 control-label" for="custodyStatus">Custody Status*:</label>
+					<div class="col-md-4">
+						<select class="form-control" id="custodyStatus" name="custodyStatus"
+							 ng-model="custodyStatusSelected" required>
+							<option ng-repeat="cstatus in custodyStatusList">{{cstatus}}</option>
+						</select>
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label class="col-md-3 control-label" for="ctlExpiryDate">Custody Time Limit Expiry Date*: </label>
+					<div class="col-md-4">
+						<div date-format obj="case" model="ctlExpiryDate" name="ctlExpiryDate" form-name="defendantForm" loop="true"></div>
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label class="col-md-3 control-label" for="defendantURN">Defendant URN: </label>
+					<div class="col-md-4">
+						<input class="form-control" id="defendantURN" name="defendantURN"
+							ng-model="defendantURN" />
+					</div>
+				</div>
+
+				<div class="form-group">
+					<div class="col-md-4 col-md-offset-3">
+				 		<button id="saveDefendentButton" class="btn btn-success"
+					 		ng-click="saveDefendant(case.crestData.crestCaseNumber)"
+					 		ng-disabled="defendantForm.defendantName.$invalid ||
+					 		defendantForm.custodyStatus.$invalid ||
+					 		defendantForm.ctlExpiryDate.$pristine">
+					 		Add
+		 				</button>
+		 			</div>
+		 			<div class="col-md-4">
+			 			<p id="errorAddMessage"
+			 				ng-show="defendantSaveMessage">
+			 				{{defendantSaveMessage}}
+			 			</p>
+			 		</div>
+				</div>
+			</div>
+		</form>
+	</div>
+	<!-- Add Defendant Panel: End -->
+</div>

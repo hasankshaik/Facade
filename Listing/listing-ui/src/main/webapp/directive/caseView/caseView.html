@@ -1,0 +1,241 @@
+<div>
+	<div class="row" ng-if="showCase">
+		<br />
+		<div class="container" role="role">
+			<button type="button" class="col-md-11 close" ng-click="closeCase()"><span class="pull-right">Close X</span></button>
+			
+			<form class="form-horizontal" role="form" name="manageCaseForm" ng-show="showCase" novalidate>
+			    
+				<div class="container">
+					<h1 class="col-md-12">Case Detail</h1><hr />
+					<div class="form-group">
+						<label class="col-md-4 control-label">Case Crest Number:</label>
+						<div class="col-md-4">
+							<input class="form-control" id="crestCaseNumber" value="{{crestData.crestCaseNumber}}" disabled>
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label class="col-md-4 control-label">Lead Defendant:</label>
+						<div class="col-md-4">
+							<input class="form-control" id="leadDefendant" value="{{crestData.leadDefendant}}" disabled>
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label class="col-md-4 control-label">Number Of Defendants:</label>
+						<div class="col-md-4">
+							<input class="form-control" id="numberOfDefendent" value="{{crestData.numberOfDefendent}}" disabled>
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label class="col-md-4 control-label">Most Serious Offence:</label>
+						<div class="col-md-4">
+							<input class="form-control" id="mostSeriousOffence" value="{{crestData.mostSeriousOffence}}" disabled>
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label class="col-md-4 control-label">Trial Estimate:</label>
+						<div class="col-md-4">
+							<input class="form-control" id="trialEstimate" value="{{crestData.trialEstimate}}" disabled>
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label class="col-md-4 control-label">Trial Estimate Unit:</label>
+						<div class="col-md-4">
+							<input class="form-control" id="trialEstimateUnit" value="{{crestData.trialEstimateUnit}}" disabled>
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label class="col-md-4 control-label">Offence Class:</label>
+						<div class="col-md-4">
+							<input class="form-control" id="offenceClass" value="{{crestData.offenceClass}}" disabled>
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label class="col-md-4 control-label">Release Decision Status:</label>
+						<div class="col-md-4">
+							 <input class="form-control" id="releaseDecisionStatus" value="{{crestData.releaseDecisionStatus}}" disabled>
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label class="col-md-4 control-label">Ticketing Requirement:</label>
+						<div class="col-md-4">
+							<input class="form-control" id="ticketingRequirement" value="{{crestData.ticketingRequirement}}" disabled>
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label class="col-md-4 control-label">Date of Sending:</label>
+						<div class="col-md-4">
+							<input type="date" class="form-control" id="dateOfSending" name="dateOfSending" ng-model="dateOfSending" value="{{dateOfSending}}" disabled />
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label class="col-md-4 control-label">Date of Committal:</label>
+						<div class="col-md-4">
+							<input type="date" class="form-control" id="dateOfCommittal" name="dateOfCommittal" ng-model="dateOfCommittal" value="{{dateOfCommittal}}" disabled />
+						</div>
+					</div>
+					
+					<div class="form-group">
+						<label class="col-md-4 control-label">Case Closed:</label>
+						<div class="col-md-4">
+							<input class="form-control" id="caseClosed" value="{{crestData.caseCompleted}}" disabled>
+						</div>
+					</div>
+				</div>
+			</form>
+
+			<div class="row">
+				<div class="container pull-left">
+					<h3 class="col-md-3">Notes:</h3>
+					<div class="col-md-4" ng-if="crestData.notesWeb.length == 0">
+						<br />
+						<p id="emptyNotes">No notes</p>
+					</div>
+				</div>
+
+				<div class="container pull-left">
+					<div ng-if="crestData.notesWeb.length > 0">
+						<div class="table-responsive col-md-12">
+							<table class="table table-bordered table-condensed" id="caseNotes">
+								<thead>
+									<tr>
+										<th class="col-md-1">Creation date</th>
+										<th class="col-md-10">Note</th>
+										<th class="col-md-1">Diary date</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr ng-repeat="note in crestData.notesWeb">
+										<td class="span2">{{note.creationDate | date:'dd/MM/yyyy'}}</td>
+										<td class="span6">{{note.note}}</td>
+										<td class="span2">{{note.diaryDate | date:'dd/MM/yyyy'}}</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="container">
+					<h3 class="col-md-3">Linked cases:</h3>
+					<div class="col-md-4" ng-if="crestData.linkedCases.length == 0">
+						<br />
+						<p id="emptyLinkedCases">No linked cases</p>
+					</div>
+				</div>
+
+				<div class="container">
+					<div ng-if="crestData.linkedCases.length > 0">
+						<div class="table-responsive col-md-12">
+							<table class="table table-bordered table-condensed table-striped" id="linkedCases">
+								<thead>
+									<tr>
+										<th class="col-md-4">Case Crest Number</th>
+										<th class="col-md-4">Lead Defendant</th>
+										<th class="col-md-4">Lead Offence</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr ng-repeat="linkedCase in crestData.linkedCases">
+										<td class="col-md-4">
+											<a href="" ng-click="getCaseDetail(linkedCase.crestCaseNumber)">{{linkedCase.crestCaseNumber}}</a>
+										</td>
+										<td class="col-md-4">{{linkedCase.leadDefendant}}</td>
+										<td class="col-md-4">{{linkedCase.mostSeriousOffence}}</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="container">
+					<h3 class="col-md-3">Defendants:</h3>
+					<div class="col-md-4" ng-if="crestData.personInCaseList.length == 0">
+						<br />
+						<p id="emptyNotes">No Defandants</p>
+					</div>
+				</div>
+
+				<div class="container pull-left">
+					<div ng-if="crestData.personInCaseList.length > 0">
+						<div class="table-responsive col-md-12">
+							<table class="table table-bordered table-condensed table-striped" id="peopleInCase">
+								<thead>
+									<tr>
+										<th class="col-md-3">Name</th>
+										<th class="col-md-2">Case URN</th>
+										<th class="col-md-2">Status</th>
+										<th class="col-md-2">CTL Expires on</th>
+										<th class="col-md-2">Days for CTL Expiry</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr ng-repeat="personInCase in crestData.personInCaseList | orderBy: 'personInfullname' ">
+										<td class="col-md-3">{{personInCase.fullname}}</td>
+										<td class="col-md-2">{{personInCase.crestURN}}</td>
+										<td class="col-md-2">{{personInCase.custodyStatus}}</td>
+										<td class="col-md-2">{{personInCase.ctlExpiryDate  | date:'dd/MM/yyyy'}}</td>
+										<td class="col-md-2">{{personInCase.noOfDayForCTLExpiry}}</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="container">
+					<h3 class="col-md-3">Non Availability:</h3>
+					<div class="col-md-4" ng-if="crestData.crustNonAvailableDateList.length == 0">
+						<br />
+						<p id="noNoAvailability">No non availability</p>
+					</div>
+				</div>
+
+				<div class="container pull-left">
+					<div ng-if="crestData.crustNonAvailableDateList.length > 0">
+						<div class="table-responsive col-md-12">
+							<table class="table table-bordered table-condensed table-striped" id="nonAvailableDates">
+								<thead>
+									<tr>
+										<th class="col-md-4">Reason</th>
+										<th class="col-md-4">Start Date</th>
+										<th class="col-md-4">End Date</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr ng-repeat="crestNonAvailableDate in crestData.crustNonAvailableDateList">
+										<td class="col-md-4">{{crestNonAvailableDate.reason}}</td>
+										<td class="col-md-4">{{crestNonAvailableDate.startDate | date:'dd/MM/yyyy'}}</td>
+										<td class="col-md-4">{{crestNonAvailableDate.endDate | date:'dd/MM/yyyy'}}</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			<div case-hearing case="crestData"></div>
+
+		</div>
+	</div>
+</div>
+
+

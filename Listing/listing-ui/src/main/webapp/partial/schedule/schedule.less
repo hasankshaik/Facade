@@ -1,0 +1,88 @@
+.table {
+    thead td {
+        background: #b2b2b2;
+        text-align: center;
+    }
+    td:first-child {
+        vertical-align: middle;
+    }
+    .block-style {
+        background-color: #81BEF7;
+        margin-bottom: 5px;
+        overflow: hidden;
+    }
+    .block-type {
+        display: inherit;
+        text-align: left;
+        padding-left: 5px;
+        font-weight: bold;
+    }
+    .trail-info {
+        float: left;
+        width: 100%;
+    }
+}
+
+.frozen-table-header {
+    position: relative;
+    .table-wrapper {
+        overflow: hidden;
+    }
+    .table-inner {
+        margin-left: 100px;
+        table {
+            table-layout: fixed;
+            width: 100%;
+        }
+        td { 
+            width: 100px;
+        }
+        td:first-child {
+            background: #b2b2b2;
+            height: 100%;
+            left: 15px;
+            text-align: center;
+            position: absolute !important;
+            z-index: 100;
+        }
+        tr { 
+            height: 32px; 
+        }
+    }
+}
+
+.greystyle {
+    background-color: grey;
+    border: 5px solid grey;
+}
+
+.grid-left {
+    position: fixed;
+    top: 120px;
+    bottom: 0;
+    overflow-y: scroll;
+}
+
+.grid-right {
+    position: absolute;
+    right: 0;
+    .planner {
+        overflow: hidden;
+        top: 155px;
+    }
+}
+
+.dropdown-menu {
+    border: none;
+    /*position: relative;*/
+    /*top: 0 !important;*/
+    padding-bottom: 5px;
+}
+
+.input-group-btn {
+    vertical-align: top;
+}
+
+.no-gutter {
+    padding: 0;
+}

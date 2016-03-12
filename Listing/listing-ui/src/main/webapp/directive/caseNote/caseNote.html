@@ -1,0 +1,111 @@
+<div>
+	<!-- Notes : Start -->
+	<div class="row">
+		<div class="container">
+			<h3 class="col-md-3">Notes:</h3>
+			<div class="col-md-4" ng-if="case.crestData.notesWeb.length == 0">
+				<br />
+				<p id="emptyNotes">No notes</p>
+			</div>
+		</div>
+
+		<div class="container">
+			<div ng-if="case.crestData.notesWeb.length > 0">
+				<div class="table-responsive col-md-12">
+					<table class="table table-bordered table-condensed" id="caseNotes">
+						<thead>
+							<tr>
+								<th class="col-md-1">Creation date</th>
+								<th class="col-md-9">Note</th>
+								<th class="col-md-1">Diary date</th>
+								<th class="col-md-1"></th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr ng-repeat="note in case.crestData.notesWeb">
+								<td class="col-md-1">{{note.creationDate | date:'dd/MM/yyyy'}}</td>
+								<td class="col-md-9">{{note.note}}</td>
+								<td class="col-md-1">{{note.diaryDate | date:'dd/MM/yyyy'}}</td>
+								<td>
+									<button id="removeNote{{$index}}" class="btn btn-warning"
+										ng-click="deleteNote(note, case.crestData.crestCaseNumber)">
+										Delete
+									</button>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Notes : End -->
+
+	<!-- Add Notes Panel: Start -->
+	<div class="container">
+
+		<div class="form-group">
+			<div class="col-md-3">
+				<button id="addNoteButton" class="btn btn-success" 
+					ng-click="addNote()" 
+					ng-show="!showAddNote">
+					Add Note
+				</button>
+ 			</div>
+ 			<div class="col-md-4">
+	 			<p id="addNoteMessage" 
+	 				ng-show="noteSaveMessage">
+	 				{{noteSaveMessage}}
+	 			</p>
+	 			<p id="updateNoteMessage" 
+	 				ng-show="updateNoteMessage">
+	 				{{updateNoteMessage}}
+	 			</p>				 	
+	 		</div>
+		</div>
+
+		<form class="form-horizontal" role="form" name="notesForm" novalidate>
+			<div id="showAddNotePanel" ng-show="showAddNote">
+				
+				<div class="form-group">
+					<label class="col-md-3 control-label" for="noteDesc">
+					Note*:
+					</label>
+					<div class="col-md-4">
+						<textarea 
+							class="form-control" id="noteDesc" name="noteDesc"
+							ng-model="noteDesc"
+							ng-maxlength="3069"
+							required>
+						</textarea>
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label class="col-md-3 control-label" for="dateNote">Diary Date:</label>
+					<div class="col-md-4">						
+						<div date-format obj="case" model="dateNote" name="dateNote" form-name="notesForm" loop="true"></div>
+					</div>
+				</div>
+				
+				<div class="form-group">
+					<div class="col-md-1 col-md-offset-3">
+				 		<button id="saveNoteButton" class="btn btn-success" 
+					 		ng-click="saveNote(case.crestData.crestCaseNumber)" 
+					 		ng-disabled="notesForm.noteDesc.$invalid || notesForm.noteDesc.$pristine">
+					 		Add
+		 				</button>
+		 			</div>
+		 			<div class="col-md-4 control-label">
+			 			<p id="errorLenghtMessage" class="pull-left"
+							ng-show="notesForm.noteDesc.$invalid && notesForm.noteDesc.$dirty">
+		 					Note is mandatory and its maximum size is 3069 characters.
+		 				</p>		 	
+			 		</div>
+
+				</div>
+			</div>
+		</form>
+	</div>
+	<!-- Add Notes Panel: End -->
+</div>

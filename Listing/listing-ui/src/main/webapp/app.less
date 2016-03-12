@@ -1,0 +1,33 @@
+// Add any fonts we have
+@import "bower_components/font-awesome/less/font-awesome.less";
+@fa-font-path: "bower_components/font-awesome/fonts";
+@icon-font-path: "bower_components/bootstrap/fonts/";
+
+@import "bower_components/bootstrap/less/bootstrap.less";
+@import "bower_components/bootstrap-table/dist/bootstrap-table.min.css";
+@import "bower_components/cpp-ui-deprecated/dist/ui.cpp.less";
+
+div#body {
+  margin-top: 100px;
+}
+
+nav li a.active {background-color: #2e8aca;}
+
+
+/* Component LESS */
+@import "partial/schedule/schedule.less";
+@import "partial/case/case.less";
+@import "partial/sitting/sitting.less";
+@import "partial/admin/admin.less";
+@import "directive/unscheduledHearing/unscheduledHearing.less";
+@import "partial/hearingSlots/hearingSlots.less";
+@import "partial/alertDialog/alertDialog.less";
+@import "partial/case/manage-case/manage-case.less";
+@import "directive/caseDefendant/caseDefendant.less";
+@import "directive/caseNote/caseNote.less";
+@import "directive/caseLinkedCases/caseLinkedCases.less";
+@import "directive/caseNonAvailableDates/caseNonAvailableDates.less";
+@import "directive/caseHearing/caseHearing.less";
+@import "directive/caseJudge/caseJudge.less";
+@import "directive/caseView/caseView.less";
+/* Add Component LESS Above */

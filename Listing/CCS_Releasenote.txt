@@ -1,0 +1,117 @@
+Release Notes
+
+Release Notes - Crown Court Scheduling - Version Release 0.9.2.0
+
+Additonal Step when updating from version 0.9.1.1
+
+Step 1 run the following script against the CCS application Postgres database
+
+Exceute the sql script from under ReleaseScripts/release0_92_0.sql
+
+** Defects fixed
+    * [CCS-614] - Court room and booking type values in "Hearing Information" section is modified on the front end before a hearing has been actually listed
+    * [CCS-620] - Deleting defendant for a case sometimes throws RuntimeException
+    * [CCS-621] - Date format is ISO format on DOM1 browser
+    * [CCS-622] - Hearing selected in "Unscheduled Hearing" drop down is not cleared when clicking on the link of an already listed Hearing
+    * [CCS-675] - "Date of Sending" or "Date of Committal" is shown as "01/01/1970" in "Create Case page" when they were not entered during case creation.
+    * [CCS-577] - Listing a hearing and Find Slots, incorrectly uses unsaved estimates entered in front end
+
+** Story
+    * [CCS-326] - Load Crest Data
+    * [CCS-445] - Create Court Centre
+    * [CCS-519] - Create Linked Cases
+    * [CCS-520] - Create non available dates
+    * [CCS-521] - Create Notes for Case
+    * [CCS-526] - Edit (Now Delete) Notes
+
+
+Release Notes - Crown Court Scheduling - Version Release 0.9.1.1 Private Beta
+
+
+
+** Defects Fixed
+    * [CCS-587] - Tabs not working correctly
+    * [CCS-590] - Hearing Estimate Edits do not affect the Choose slot calculation
+
+** Story
+    * [CCS-150] - Add Room
+    * [CCS-377] - Set Block Type
+    * [CCS-379] - Close Blocks in Rooms for days
+    * [CCS-428] - See date of sending/committal to Crown Court
+    * [CCS-433] - View URN for Defendants
+    * [CCS-434] - Display of defendants and number of defendants
+    * [CCS-435] - CREST trial estimate values
+    * [CCS-436] - Remand Status and Custody Time Limits
+    * [CCS-513] - Book a hearing from search results
+    * [CCS-518] - Create People and Defendents for case 
+    * [CCS-523] - Edit Defendents
+    * [CCS-588] - Navigate on planner should not clear hearing selection
+    * [CCS-589] - Retain information in left panel when changing date view
+
+** Task
+    * [CCS-502] - Fix or escalate cobertura for Java 8 bug
+    * [CCS-533] - Add config to Log4J to log to HaSS logstash
+    * [CCS-592] - Change Birmingham Crown Court text
+    * [CCS-593] - Changes to Create Case Page
+    * [CCS-605] - remove static HTML from pages
+
+Release Notes - Crown Court Scheduling - Version Release 0.9.1 Private Beta
+
+** Defect fixed
+    * [CCS-543] - able to List hearing without selecting room
+
+Release Notes - Crown Court Scheduling - Version Release 0.3
+
+** Defects fixed
+    * [CCS-437] - Same judge name with spaces and without spaces is incorrectly considered as same judge.
+    * [CCS-495] - Un-list button is enabled when selecting an un-listed hearing
+    * [CCS-496] - Using same hearing name updates rather than creates a hearing
+
+** Story
+    * [CCS-133] - User Login
+    * [CCS-368] - Delete a hearing
+    * [CCS-371] - Navigate to proposed slot
+    * [CCS-382] - Edit Hearing from Planner
+    * [CCS-383] - Edit Hearing from Case Page
+    * [CCS-384] - Edit Hearing from Unlisted Hearings Element
+    * [CCS-387] - User Logout
+    * [CCS-423] - Find Empty slots
+    * [CCS-427] - Find Partially available slots
+    * [CCS-498] - Display Room value in booked hearing in case view
+    * [CCS-516] - Improvements from guerilla testing 16/6/15
+    * [CCS-517] - Create Case with intial fields
+
+Release Notes - Crown Court Scheduling - Version Release 0.2
+
+** Story
+    * [CCS-139] - View Case - Pattern 1 attributes
+    * [CCS-144] - Put hearing in slot
+    * [CCS-145] - List case / hearing as provisional or confirmed
+    * [CCS-146] - Remove Listing from planner page
+    * [CCS-247] - Manage Monthly Sitting Target
+    * [CCS-291] - Create Hearing for case
+    * [CCS-312] - Set Target for future years
+    * [CCS-320] - View Case - Pattern 2 attributes
+    * [CCS-321] - View Case - Pattern 3 attributes
+    * [CCS-325] - Delete Judge from Session
+    * [CCS-390] - View Case - Pattern 4 attributes
+
+Release Notes - Crown Court Scheduling - Version Release 0.1 Alpha
+
+** Acceptance Test Defect
+    * [CCS-283] - Validation does not show message
+    * [CCS-317] - Cannot select Monday from date picker
+    * [CCS-318] - Additional scenario to pick a range of dates with a from to format
+
+** Epic
+    * [CCS-134] - Listing Officer View Planner
+    * [CCS-135] - Allocate Judge to Court / Session
+
+** Story
+    * [CCS-136] - Set sitting days for financial year
+    * [CCS-137] - View actual sitting days booked
+    * [CCS-193] - View Week Planner
+    * [CCS-194] - View Month (4 week) Planner
+    * [CCS-195] - Go to date in Planner
+    * [CCS-196] - Add Judge to list of Judges
+    * [CCS-197] - Allocate Existing Judge to Court / Session

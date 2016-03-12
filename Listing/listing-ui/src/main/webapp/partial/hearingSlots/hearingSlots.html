@@ -1,0 +1,51 @@
+<div>
+    <div class="modal-dialog">
+        <div class="modal-header">
+            <h4 class="modal-title">Available Slot Dates For Hearing</h4>
+        </div>
+        
+        <div class="modal-body" id="noResultsFound" ng-show="hearingSlots.length == 0">
+            <span class="control-group error">Sorry, no slots found</span>
+        </div>
+
+        <div class="modal-body fixed-table-container" ng-show="hearingSlots.length !== 0">
+            <table id="table-style" class="table table-bordered table-striped table-condensed table-hover" data-height="299">
+                <thead>
+                    <tr>
+                        <th>No.</th>
+                        <th>Room Name</th>
+                        <th>Slot Date</th>
+                        <th>Over-bookings</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat='data in hearingSlots'>
+                        <td>
+                            <input type="radio" id="{{data.roomName}}-{{data.slotDate | date: 'dd/MM/yyyy'}}-radio" ng-value="data | json:0" ng-model="selectedSlot.slot">
+                        </td>
+                        <td id="{{data.roomName}}-{{data.slotDate | date: 'dd/MM/yyyy'}}">{{data.roomName}}</td>
+                        <td id="{{data.roomName}}-{{data.slotDate | date: 'dd/MM/yyyy'}}-date">{{data.slotDate | date: 'dd/MM/yyyy'}}</td>
+                        <td id="{{data.roomName}}-{{data.slotDate | date: 'dd/MM/yyyy'}}-exist_hearings">{{data.hearingCount}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="modal-footer">
+            <div class="row">
+                <div class="col-md-4 col-md-offset-2">
+                    <select class="form-control" id="bookingType" ng-model="selectedSlot.bookingType" ng-disabled="!selectedSlot.slot">
+                        <option value="Provisional">Provisional</option>
+                        <option value="Confirmed">Confirmed</option>
+                    </select>
+                </div>
+                <div class="col-md-6 pull-right">
+                    <button class="btn btn-success" id="slotListButton" ng-click="list()" ng-disabled="!selectedSlot.slot || !selectedSlot.bookingType">LIST</button>
+                    <button class="btn btn-primary" id="navigateButton" ng-click="navigate()" ng-disabled="!selectedSlot.slot">GO TO</button>
+                    <button class="btn btn-default" id="cancelButton" ng-click="$dismiss()">CLOSE</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

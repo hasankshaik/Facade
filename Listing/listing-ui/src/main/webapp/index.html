@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html xmlns:ng="http://angularjs.org" lang="en" data-ng-app="ccsApp">
+<head>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>CPP - Ccsapp</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta charset="utf-8">
+  <link rel="icon" href="favicon.ico" type="image/x-icon" />
+  <link href="app.less" type="text/css" rel="stylesheet/less">
+</head>
+<body>
+
+  <div id="scripts">
+    <!--[if lt IE 7]>
+    <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+    <![endif]-->
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 10]>
+    <script data-remove="false" data-concat="false" src="bower_components/html5shiv/dist/html5shiv.min.js"></script>
+    <script data-remove="false" data-concat="false" src="bower_components/respond/src/respond.js"></script>
+    <script data-remove="false" data-concat="false" src="bower_components/es5-shim/es5-shim.min.js"></script>
+    <![endif]-->
+    <!-- Livereload script for development only (stripped during dist build) -->
+    <script src="http://localhost:35729/livereload.js" data-concat="false"></script>
+
+    <script src="bower_components/less.js/dist/less-1.6.2.js" data-concat="false"></script>
+    <script src="bower_components/jquery/jquery.min.js"></script>
+    <script src="bower_components/underscore/underscore-min.js"></script>
+    <script src="bower_components/angular/angular.js"></script>
+    <script src="bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
+    <script src="bower_components/angular-animate/angular-animate.min.js"></script>
+    <script src="bower_components/angular-resource/angular-resource.min.js"></script>
+    <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
+    <script src="bower_components/cpp-ui-deprecated/dist/ui.cpp-tpls.min.js"></script>
+    <script src="bower_components/angular-ui-utils/ui-utils.min.js"></script>
+    <script src="bower_components/angular-ui-utils/ui-utils-ieshiv.min.js"></script>
+    <script src="bower_components/angular-cookies/angular-cookies.js"></script>
+    <script src="bower_components/angular-sanitize/angular-sanitize.min.js"></script>
+    <script src="bower_components/angular-localization/angular-localization.js"></script>
+    <script src="bower_components/angular-utils-pagination/dirPagination.js"></script>
+
+
+    <!-- Main App JS -->
+    <script src="app.js"></script>
+    <script src="baseController.js"></script>
+    <script src="config/config.js"></script>
+    <script src="config/ccsApp.config.js"></script>
+
+    <script src="partial/schedule/schedule.js"></script>
+    <script src="partial/sitting/sitting.js"></script>
+    <script src="partial/admin/admin.js"></script>
+    <script src="partial/alertDialog/alertDialog.js"></script>
+    <script src="partial/case/case.js"></script>
+    <script src="partial/case/manage-case/manage-case.js"></script>
+    <script src="partial/hearingSlots/hearingSlots.js"></script>
+    
+    <script src="service/FinancialYearService.js"></script>
+    <script src="service/SharedService.js"></script>
+    
+    <script src="service/sitting/SittingService.js"></script>
+    <script src="service/judge/JudgeService.js"></script>
+    <script src="service/court/CourtService.js"></script>
+    <script src="service/file/FileService.js"></script>
+    <script src="service/session/SessionService.js"></script>
+    <script src="service/case/CaseService.js"></script>
+    <script src="service/hearing/HearingService.js"></script>
+    
+    <script src="directive/fileInput.js"></script>
+    <script src="directive/dateFormat.js"></script>
+    <script src="directive/unscheduledHearing/unscheduledHearing.js"></script>
+    <script src="directive/caseDefendant/caseDefendant.js"></script>
+    <script src="directive/caseNote/caseNote.js"></script>
+    <script src="directive/caseLinkedCases/caseLinkedCases.js"></script>
+    <script src="directive/caseNonAvailableDates/caseNonAvailableDates.js"></script>
+    <script src="directive/caseHearing/caseHearing.js"></script>
+    <script src="directive/caseJudge/caseJudge.js"></script>
+    <script src="directive/caseView/caseView.js"></script>
+    <!-- Add New Component JS Above -->
+  </div><!--end scripts-->
+
+  <div  data-ng-controller="BaseController as base"  ng-init="init()" ui-scrollfix  id="header" class="navbar navbar-default navbar-fixed-top">
+
+    <div class="navbar-inner">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#mobile-nav"
+                  ng-click="isCollapsed = !isCollapsed">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand visible-xs" href="#">cpp-ui</a>
+        </div>
+        <nav class="hidden-xs text-capitalize">
+          <ul class="nav navbar-nav">
+            <a href="https://www.gov.uk" role="button" class="navbar-brand text-uppercase">
+              <img height="20" alt="cpp-ui" src="assets/img/gov.uk_logo.svg" />
+            </a>
+          </ul>
+          <!-- Right Nav -->
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="{{logOutUrl}}">Logout</a></li>
+          </ul>
+        </nav>
+        <nav class="visible-xs" id="mobile-nav" collapse="!isCollapsed">
+          <ul class="nav navbar-nav">
+            <li><a href="#getting_started" ng-click="isCollapsed = !isCollapsed">Getting started</a></li>
+            <li><a href="#directives_small" ng-click="isCollapsed = !isCollapsed">Directives</a></li>
+          </ul>
+        </nav>
+      </div>
+    </div>
+    
+    <div class="navbar navbar-subnav" role="navigation">
+      <div class="navbar-inner">
+        <div class="container">
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#mobile-nav"
+                    ng-click="isCollapsed = !isCollapsed">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand visible-xs" href="#">cpp-ui</a>
+          </div>
+          <nav class="hidden-xs text-capitalize">
+            <ul class="nav navbar-nav first-local-nav">
+              <li id="schedule"><a ui-sref="schedule" ui-sref-active="active">Schedule</a></li>
+              <li id="sitting"><a ui-sref="sitting" ui-sref-active="active">Sitting</a></li>
+              <li id="admin"><a ui-sref="admin" ui-sref-active="active">Admin</a></li>
+              <li id="manage-case"><a ui-sref="manage-case" ui-sref-active="active">Manage Case</a></li>
+              <!-- Add New Routes Above -->
+            </ul>
+        </div>
+      </div>
+    </div>
+  </div><!--end header-->
+
+
+
+  <div id="body"><div ui-view></div></div>
+
+  <div id="footer">
+    <footer class="container">
+      <p class="text-muted">
+
+      </p>
+      <br/>
+    </footer>
+  </div><!--end footer-->
+
+</body>
+</html>

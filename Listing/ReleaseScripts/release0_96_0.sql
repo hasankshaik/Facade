@@ -1,0 +1,16 @@
+update caserelated set releasedecisionstatus ='AR' where releasedecisionstatus='NOT' or releasedecisionstatus='NEE';
+ALTER TABLE panelmember DROP COLUMN panelmembertype;
+ALTER TABLE panelmember ADD COLUMN panelmembertype character varying(255);
+UPDATE panelmember SET panelmembertype='JUDGE';
+ALTER TABLE panelmember ALTER COLUMN panelmembertype SET NOT NULL;
+ALTER TABLE judicialofficer DROP COLUMN isqc;
+ALTER TABLE judicialofficer ADD COLUMN isqc character(1);
+UPDATE judicialofficer SET isqc='N';
+ALTER TABLE judicialofficer ALTER COLUMN isqc SET NOT NULL;
+ALTER TABLE judicialofficer DROP COLUMN judicialofficertype;
+ALTER TABLE judicialofficer ADD COLUMN judicialofficertype character varying(255);
+UPDATE judicialofficer SET judicialofficertype='CIRCUIT';
+ALTER TABLE judicialofficer ALTER COLUMN judicialofficertype SET NOT NULL;
+ALTER TABLE judicialofficer DROP COLUMN isresident;
+ALTER TABLE judicialofficer ADD COLUMN isresident character(1);
+UPDATE judicialofficer SET isresident = 'N' where judicialofficertype='CIRCUIT';

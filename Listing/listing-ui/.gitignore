@@ -1,0 +1,12 @@
+/encodings.xml
+*.DS_Store
+*.project
+/.settings/*
+/bin/*
+/target/*
+*/test-out/**
+
+
+/target/
+/node/
+/node_modules/

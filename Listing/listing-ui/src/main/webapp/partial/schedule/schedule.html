@@ -1,0 +1,527 @@
+<div class="container-fluid" data-ng-controller="DiaryController as diary" ng-init="diary.init()">
+	<div class="row">
+		<div class="col-md-3 grid-left" role="complementary">
+			<!-- Start: Hearing Panels -->
+			<div class="panel panel-default">
+				<div class="panel-heading" data-toggle="collapse" data-target="#infoHearingsDiv">Hearing Information</div>
+				<div id="infoHearingsDiv" class="panel-body" class="collapse" ng-model="selectedHearing" ng-show="diary.showHearingInfoFlag">
+					<div class=""><label>Hearing Name :</label> <span  id="hearingInfo">{{diary.selectedHearing.hearingName}}</span></div>
+					<div class=""><label>Crest Number :</label> <span>{{diary.selectedHearing.hearingCase}}</span></div> 
+					<div class=""><label>Hearing Type :</label> <span>{{diary.selectedHearing.hearingType}}</span></div>
+					<div class=""><label>Booking Type :</label> <span id="hearingInfoBookingType">{{diary.selectedHearing.bookingType}}</span></div>
+					<div class=""><label>Estimate :</label> <span>{{diary.selectedHearing.trialEstimate}}</span></div>
+					<div class=""><label>Start Date :</label> <span>{{diary.selectedHearing.startDate}}</span></div>
+					<div class=""><label>Booking Status :</label> <span>{{diary.selectedHearing.bookingStatus}}</span></div>
+					<div class=""><label>Court Room :</label> <span id="hearingInfoCourtRoom">{{diary.selectedHearing.courtRoomName}}</span></div>
+					<div class=""><label>Trial KPI Date :</label> <span id="hearingInfoKPIDate">{{diary.selectedHearing.trialKPIDate| date:'dd/MM/yyyy'}}</span></div>
+					<br />
+					<button id="unListHearing" ng-click="diary.unListHearing()" ng-disabled="diary.selectedHearing.bookingStatus !='Scheduled'" class="btn btn-success">Un-List</button>
+				</div>
+			</div>
+
+			<div class="panel panel-default">
+				<div class="panel-heading" data-toggle="collapse" data-target="#unListedHearingsDiv">Unscheduled Hearings</div>
+				<div id="unListedHearingsDiv" class="panel-body" class="collapse">
+					<div class="row">
+						<div class="col-md-6">
+							<select id="selectedUnscheduledHearing" class="form-control" name="selectedUnscheduledHearing" ng-model="diary.selectedUnscheduledHearing" ng-options="hearing.hearingName for hearing in diary.unlistedHearings track by hearing.hearingKey" ng-change="diary.onUnScheduledHearingSelection()"></select>
+						</div>
+
+						<div class="col-md-5">
+							<button id="getHearingSlotsButton" ng-click="diary.openDialog()" ng-disabled="(diary.selectedUnscheduledHearing == null || diary.selectedUnscheduledHearing.length==0)" class="btn btn-success">Choose Slot</button>
+						</div>
+						<div class="col-md-12">
+							<br />
+							<input type="checkbox" id="overBookCheck" name="overBookCheck" ng-model="diary.overbook" /> &nbsp;Over-book
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="panel panel-default">
+				<div class="panel-heading" data-toggle="collapse" data-target="#editEstimateDiv">Edit Estimate</div>
+				<div id="#editEstimateDiv" class="panel-body" class="collapse" ng-show="diary.showEditEstimateFlag">
+					<form role="form" name="editEstimateForm" novalidate >
+						<div class="form-group">
+							<label class="col-md-4 control-label row" for="trialEstimateId"><strong>Estimate :</strong></label>
+							<div class="col-md-4">
+								<input class="form-control" type="number" min="0" max="9999" placeholder="Enter trail estimate" id="trialEstimateId" name="trialEstimateId" ng-model="diary.editTrialEstimate" required/>
+							</div>
+						</div>				
+						<div class="form-group">
+							<div class="col-md-4">
+								<button id="editEstimate" class="btn btn-success" ng-click="diary.editEstimate()" ng-disabled="editEstimateForm.trialEstimateId.$invalid || selectedUnscheduledHearing.bookingStatus=='Scheduled' || editEstimateForm.editTrialEstimate.$pristine">Save</button>
+							</div>
+							<div class="col-md-12 row">
+								<p ng-show="diary.editEstimateMessage" class="help-block">{{ diary.editEstimateMessage }}</p>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+
+			<div class="panel panel-default"> 
+				<div class="panel-heading"  data-toggle="collapse" data-target="#listHearingsDiv">List Hearing</div>
+				<div id="listHearingsDiv" class="panel-body" ng-show="diary.showUnScheduledHearingFlag" class="collapse">
+					<form class="form-horizontal" role="form" name="listHearingForm" novalidate>
+						<div class="form-group">
+							<label class="col-md-4 control-label" for="hearingStartDate">Start Date :</label>
+							<div class="col-md-8">
+								<div date-format obj="diary" model="hearingStartDate" name="hearingStartDate" formName="listHearingForm" change="moveDatesForListing"></div>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label class="col-md-4 control-label" for="roomForListing">Court Room:</label>
+							<div class="col-md-8">
+								<select class="form-control" id="roomForListing" name="roomForListing" ng-change="diary.clearMessages()" ng-model="diary.selectedUnscheduledHearing.courtRoomName" required > 
+							   		<option ng-repeat="room in diary.roomList" title="{{room.courtRoomName}}" ng-selected="{{room.courtRoomName == diary.selectedUnscheduledHearing.courtRoomName}}" value="{{room.courtRoomName}}" >{{room.courtRoomName}}</option>
+								</select>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label class="col-md-4 control-label" for="hearingBookingType">Booking Type:</label>
+							<div class="col-md-8">
+								<select class="form-control" id="hearingBookingType" name="hearingBookingType" ng-change="diary.clearMessages()" ng-model="diary.selectedUnscheduledHearing.bookingType" required>
+									<option value="Provisional">Provisional</option>
+									<option value="Confirmed">Confirmed</option>
+								</select>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<div class="col-md-4 col-md-offset-4">
+								<button class="btn btn-success" id="listHearing" ng-click="diary.listHearing()" ng-disabled="listHearingForm.hearingBookingType.$invalid || listHearingForm.roomForListing.$invalid || listHearingForm.hearingStartDate.$invalid || (listHearingForm.hearingStartDate.$dirty && listHearingForm.hearingStartDate.$invalid)">List</button>
+							</div>
+							<div class="col-md-8 col-md-offset-4">
+								<p ng-show="diary.listHearingMessage" id="listHearingMessage" class="help-block">{{ diary.listHearingMessage }}</p>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+
+			<div class="panel panel-default"> 
+				<div class="panel-heading"  data-toggle="collapse" data-target="#editHearingsDiv">Edit Hearing</div>
+				<div id="editHearingsDiv" class="panel-body" ng-show="diary.showScheduledHearingFlag" class="collapse">
+					<form class="form-horizontal" role="form" name="editHearingForm" novalidate>
+						<div class="form-group">
+							<label class="col-md-4 control-label" for="scheduledTrialEstimateId">Estimate :</label>
+							<div class="col-md-8">
+								<input class="form-control" type="text" id="scheduledTrialEstimateId" name="scheduledTrialEstimateInput" ng-model="diary.scheduledHearing.trialEstimate" required/>
+							</div>
+							<div class="col-md-5">
+								<p id="trialEstimateInputInvalid" ng-show="diary.editHearingForm.trialEstimateInput.$error.required && diary.scheduledHearing!=''" class="help-block">Not an allowed combination of fields</p>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label class="col-md-4 control-label" for="scheduledHearingNoteId">Annotation :</label>
+							<div class="col-md-8">
+								<input class="form-control" type="text" id="scheduledHearingNoteId" name="scheduledHearingNoteInput" ng-model="diary.scheduledHearing.hearingNote" ng-maxlength="50"/>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label class="col-md-4 control-label" for="scheduledHearingStartDate">Start Date :</label>
+							<div class="col-md-8">
+								<div date-format obj="diary" model="scheduledHearingStartDate" name="scheduledHearingStartDate" formName="editHearingForm" change="moveDatesForListing"></div>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label class="col-md-4 control-label" for="scheduledRoomForListing">Court Room :</label>
+							<div class="col-md-8">
+								<select id="scheduledRoomForListing" class="form-control" ng-change="diary.clearMessages()" ng-model="diary.scheduledHearing.courtRoomName" >
+									<option ng-repeat="room in diary.roomList" ng-selected="{{room.courtRoomName == diary.scheduledHearing.courtRoomName}}" value="{{room.courtRoomName}}">{{room.courtRoomName}}</option>
+								 </select>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label class="col-md-4 control-label" for="scheduledHearingBookingType">Booking Type :</label>
+							<div class="col-md-8">
+								<select id="scheduledHearingBookingType" class="form-control" ng-change="diary.clearMessages()" ng-model="diary.scheduledHearing.bookingType"> 
+									<option value="Provisional">Provisional</option>
+									<option value="Confirmed">Confirmed</option>
+								</select>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<div class="col-md-4 col-md-offset-4">
+								<button id="updateHearing" class="btn btn-success" ng-click="diary.updateHearing()" ng-disabled="editHearingForm.scheduledTrialEstimateInput.$invalid || editHearingForm.scheduledHearingNoteInput.$invalid">Save</button>
+							</div>
+							<div class="col-md-5">
+								<p id="editHearingMessage" ng-show="diary.editHearingMessage" class="help-block">{{diary.editHearingMessage}}</p>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+			<!-- End: Hearing Panels -->
+			
+			<!-- Start: Manage Blocks -->
+
+			<div class="panel panel-default"> 
+				<div class="panel-heading"  data-toggle="collapse" data-target="#manageBlocksDiv">Manage Blocks</div>
+				<div id="manageBlocksDiv" class="panel-body" class="collapse">
+					<form class="form-horizontal" role="form" name="manageBlocksForm" novalidate>
+						<div class="form-group">
+							<label class="col-md-4 control-label" for="listOfBlockTypes">Block type:</label>
+							<div class="col-md-8">
+								<select id="listOfBlockTypes" ng-change="diary.clearMessages()" name="blockTypeSelected" ng-model="diary.blockTypeSelected" required class="form-control">
+									<option ng-repeat="sessionBlockType in diary.sessionBlockTypeList">{{ sessionBlockType }}</option>
+								</select>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label class="col-md-4 control-label" for="courtRoomsManageBlocks">Court room:</label>
+							<div class="col-md-8">
+								<select id="courtRoomsManageBlocks" ng-change="diary.clearMessages()" name="courtRoomsManageBlocks" ng-model="diary.courtRoomNameSelectedManageBlocks" required class="form-control">
+									<option ng-repeat="room in diary.courtRoomList">{{ room.courtRoomName }}</option>
+								</select>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label class="col-md-4 control-label" for="courtRoomStartDateManageBlocks">Start Date :</label>
+							<div class="col-md-8">
+								<div date-format obj="diary" model="courtRoomStartDateManageBlocks" name="courtRoomStartDateManageBlocks" formName="manageBlocksForm"></div>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label class="col-md-4 control-label" for="courtRoomEndDateManageBlocks">End date:</label>
+							<div class="col-md-8">
+ 								<div date-format obj="diary" model="courtRoomEndDateManageBlocks" name="courtRoomEndDateManageBlocks" formName="manageBlocksForm"></div>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<div class="col-md-4 col-md-offset-4">
+								<button id="manageBlock" class="btn btn-success" ng-click="diary.manageBlocks()" ng-disabled="manageBlocksForm.blockTypeSelected.$pristine || manageBlocksForm.courtRoomsManageBlocks.$pristine || manageBlocksForm.courtRoomStartDateManageBlocks.$pristine || manageBlocksForm.courtRoomEndDateManageBlocks.$pristine || 
+								(manageBlocksForm.courtRoomStartDateManageBlocks.$dirty && manageBlocksForm.courtRoomStartDateManageBlocks.$invalid) || (manageBlocksForm.courtRoomEndDateManageBlocks.$dirty && manageBlocksForm.courtRoomEndDateManageBlocks.$invalid)">Set</button>
+							</div>
+							<div class="col-md-4 ">
+								<button id="deleteBlock" class="btn btn-success" ng-click="diary.deleteBlocks()" ng-disabled="manageBlocksForm.blockTypeSelected.$pristine || manageBlocksForm.courtRoomsManageBlocks.$pristine || manageBlocksForm.courtRoomStartDateManageBlocks.$pristine || manageBlocksForm.courtRoomEndDateManageBlocks.$pristine || (manageBlocksForm.courtRoomStartDateManageBlocks.$dirty && manageBlocksForm.courtRoomStartDateManageBlocks.$invalid) || (manageBlocksForm.courtRoomEndDateManageBlocks.$dirty && manageBlocksForm.courtRoomEndDateManageBlocks.$invalid)">Delete</button>
+							</div>
+							<div class="col-md-8">
+								<p id="editHearingMessage" ng-show="diary.editHearingMessage" class="help-block">{{diary.editHearingMessage}}</p>
+								<span id="manageBlocksMessage" value="{{diary.manageBlocksMessage}}">{{diary.manageBlocksMessage}}</span>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+			<!-- End: Hearing Panels -->
+
+			<!-- start PCMH action panels -->
+			<div class="panel panel-default">
+				<div class="panel-heading" data-toggle="collapse" data-target="#managePCMHDiv">Manage PCMH</div>
+				<div id="managePCMHDiv" class="panel-body"  ng-show="true">
+					<form role="form" name="managePCMHForm" novalidate >
+						<div ng-if="diary.pcmhTomorrowList.length>0">
+							<h4>Tomorrow</h4>
+							<div class="table-responsive">
+								<table class="table table-striped table-hovered"
+									id="pcmhTomorrowList">
+									<tbody>
+										<tr ng-repeat="pcmhTomorrow in diary.pcmhTomorrowList ">
+											<td id="{{pcmhTomorrow.hearingCase}}_{{pcmhTomorrow.startDate}}_tomorrow" class="span3">{{pcmhTomorrow.hearingCase}} {{pcmhTomorrow.startDate}}</td>
+											<td>
+												<button id="{{pcmhTomorrow.hearingCase}}_{{pcmhTomorrow.startDate}}_tomorrow_editPcmh" ng-click="diary.updatePcmhHearing(pcmhTomorrow, 'Prepared')" class="btn btn-success">Prepared</button>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+						<div ng-if="diary.pcmhTodayList.length>0">
+							<h4>Today</h4>
+							<div class="table-responsive">
+								<table class="table table-striped table-hovered"
+									id="pcmhTodayList">
+									<tbody>
+										<tr ng-repeat="pcmhToday in diary.pcmhTodayList ">
+											<td id="{{pcmhToday.hearingCase}}_{{pcmhToday.startDate}}_today"  class="span3">{{pcmhToday.hearingCase}} {{pcmhToday.startDate}}</td>
+											<td>
+												<button id="{{pcmhToday.hearingCase}}_{{pcmhToday.startDate}}_today_editPcmh" ng-click="diary.updatePcmhHearing(pcmhToday, 'Complete')" class="btn btn-success">Done</button>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+						<div ng-if="diary.pcmhPastList.length>0">
+							<h4>Past</h4>
+							<div class="table-responsive">
+								<table class="table table-striped table-hovered"
+									id="pcmhPastList">
+									<tbody>
+										<tr ng-repeat="pcmhPast in diary.pcmhPastList ">
+											<td id="{{pcmhPast.hearingCase}}_{{pcmhPast.startDate}}_past"  class="span3">{{pcmhPast.hearingCase}} {{pcmhPast.startDate}}</td>
+											<td>
+												<button id="{{pcmhPast.hearingCase}}_{{pcmhPast.startDate}}_past_editPcmh" ng-click="diary.updatePcmhHearing(pcmhPast, 'Complete')" class="btn btn-success">Done</button>
+											</td>
+										</tr>
+										<tr>
+											<td colspan="6" ng-show="pcmhEditError!=''"><span
+												id="pcmhEditError" style="color: red"
+												value="pcmhEditError">{{pcmhEditError}}</span></td>
+											<td colspan="6" ng-show="pcmhEditSuccess!=''"><span
+												id="pcmhEditSuccess" style="color: green"
+												value="pcmhEditSuccess">{{pcmhEditSuccess}}</span></td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+			<!-- End PCMH action panels -->
+				
+			<!-- Start: Allocation Judges -->
+			<div class="panel panel-default"> 
+				<div class="panel-heading"  data-toggle="collapse" data-target="#allocJudgeDiv">Allocate Judges to Court Room</div>
+				<div id="allocJudgeDiv" class="panel-body" class="collapse">
+					<form class="form-horizontal" role="form" name="allocateJudgeForm" novalidate>
+						<div class="form-group">
+							<label class="col-md-4 control-label" for="listOfJudgesForAlloc">Judge :</label>
+							<div class="col-md-8">
+								<select id="listOfJudgesForAlloc" class="form-control" ng-change="diary.clearMessages()" name="judgeNameSelected" ng-model="diary.judgeNameSelected" required >
+									<option ng-repeat="judge in diary.listJudges">{{ judge.fullname }}</option>
+								</select>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label class="col-md-4 control-label" for="courtRooms">Court room :</label>
+							<div class="col-md-8">
+								<select id="courtRooms" class="form-control" ng-change="diary.clearMessages()" name="courtRoomNameSelected" ng-model="diary.courtRoomNameSelected" required >
+									<option ng-repeat="room in diary.courtRoomList">{{ room.courtRoomName }}</option>
+								</select>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label class="col-md-4 control-label" for="courtRoomStartDate">Start Date :</label>
+							<div class="col-md-8">
+								<div date-format obj="diary" model="courtRoomStartDate" name="courtRoomStartDate" formName="allocateJudgeForm"></div>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label class="col-md-4 control-label" for="courtRoomEndDate">End Date :</label>
+							<div class="col-md-8">
+								<div date-format obj="diary" model="courtRoomEndDate" name="courtRoomEndDate" formName="allocateJudgeForm"></div>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<div class="col-md-4 col-md-offset-4">
+								<button class="btn btn-success" id="allocateJudge" ng-click="diary.allocateJudge()" ng-disabled="allocateJudgeForm.judgeNameSelected.$pristine || allocateJudgeForm.courtRoomNameSelected.$pristine || allocateJudgeForm.courtRoomStartDate.$pristine || allocateJudgeForm.courtRoomEndDate.$pristine || (allocateJudgeForm.courtRoomStartDate.$dirty && allocateJudgeForm.courtRoomStartDate.$invalid) || (allocateJudgeForm.courtRoomEndDate.$dirty && allocateJudgeForm.courtRoomEndDate.$invalid)">Allocate Judge</button>
+							</div>
+							<div class="col-md-8 col-md-offset-4">
+								<p id="sessionAllocMessage" class="help-block">{{ diary.sessionAllocMessage }}</p>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+			<!-- End: Allocation Judges -->
+
+			<!-- Start: DeAllocation Judges -->
+			<div class="panel panel-default"> 
+				<div class="panel-heading"  data-toggle="collapse" data-target="#deAllocJudgeDiv">Deallocate Judges to Court Room</div>
+				<div id="deAllllocJudgeDiv" class="panel-body" class="collapse">
+					<form class="form-horizontal" role="form" name="deallocateJudgeForm" novalidate>
+						<div class="form-group">
+							<label class="col-md-4 control-label" for="listOfJudgesForDeAlloc">Judge :</label>
+							<div class="col-md-8">
+								<select id="listOfJudgesForDeAlloc" name="judgeNameSelectedDeAlloc" ng-model="diary.judgeNameSelectedDeAlloc" class="form-control" ng-change="diary.clearMessages()" required >
+									<option ng-repeat="judge in diary.listJudges">{{ judge.fullname }}</option>
+								</select>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label class="col-md-4 control-label" for="courtRoomsDeAlloc">Court room :</label>
+							<div class="col-md-8">
+								<select id="courtRoomsDeAlloc" name="courtRoomNameSelectedDeAlloc" ng-model="diary.courtRoomNameSelectedDeAlloc" class="form-control" ng-change="diary.clearMessages()" required >
+									<option ng-repeat="room in diary.courtRoomList">{{ room.courtRoomName }}</option>
+								</select>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label class="col-md-4 control-label" for="courtRoomStartDateDeAlloc">Start Date :</label>
+							<div class="col-md-8">
+								<div date-format obj="diary" model="courtRoomStartDateDeAlloc" name="courtRoomStartDateDeAlloc" formName="deallocateJudgeForm"></div>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label class="col-md-4 control-label" for="courtRoomEndDateDeAlloc">End Date :</label>
+							<div class="col-md-8">
+								<div date-format obj="diary" model="courtRoomEndDateDeAlloc" name="courtRoomEndDateDeAlloc" formName="deallocateJudgeForm"></div>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<div class="col-md-4 col-md-offset-4">
+								<button class="btn btn-success" id="deallocateJudge" ng-click="diary.deallocateJudge()" ng-disabled="deallocateJudgeForm.judgeNameSelectedDeAlloc.$pristine || deallocateJudgeForm.courtRoomNameSelectedDeAlloc.$pristine || deallocateJudgeForm.courtRoomStartDateDeAlloc.$pristine || deallocateJudgeForm.courtRoomEndDateDeAlloc.$pristine|| (deallocateJudgeForm.courtRoomStartDateDeAlloc.$dirty && deallocateJudgeForm.courtRoomStartDateDeAlloc.$invalid) || (deallocateJudgeForm.courtRoomEndDateDeAlloc.$dirty && deallocateJudgeForm.courtRoomEndDateDeAlloc.$invalid)">Deallocate Judge</button>
+							</div>
+							<div class="col-md-8 col-md-offset-4">
+								<p id="sessionDeAllocMessage" class="help-block">{{ diary.sessionDeAllocMessage }}</p>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+			<!-- End: DeAllocation Judges -->
+
+			<!-- Start: Manage sessions -->
+			<div class="panel panel-default"> 
+				<div class="panel-heading"  data-toggle="collapse" data-target="#manageSessionDiv">Manage Session</div>
+				<div id="manageSessionDiv" class="panel-body" class="collapse">
+					<form class="form-horizontal" role="form" name="manageSessionForm" novalidate>
+						<div class="form-group">
+							<label class="col-md-4 control-label" for="courtRooms">Court room :</label>
+							<div class="col-md-8">
+								<select multiple id="manageSessionsOfRooms" class="form-control" ng-change="diary.clearMessages()" name="courtRoomNameSelected" ng-model="diary.managesession.courtRoomNameSelected" required >
+									<option ng-repeat="room in diary.courtRoomList">{{ room.courtRoomName }}</option>
+								</select>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label class="col-md-4 control-label" for="manageSessionsRoomStartDate">Start Date :</label>
+							<div class="col-md-8">
+								<div date-format obj="diary" model="managesession.courtRoomStartDate" name="manageSessionsRoomStartDate" formName="manageSessionForm" change="moveDatesForListing"></div>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label class="col-md-4 control-label" for="manageSessionsRoomEndDate">End Date :</label>
+							<div class="col-md-8">
+								<div date-format obj="diary" model="managesession.courtRoomEndDate" name="manageSessionsRoomEndDate" formName="manageSessionForm"></div>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<div class="col-md-4 col-md-offset-4 ">
+								<button class="btn btn-success" id="closeSession" ng-click="diary.manageSessions(true)" ng-disabled=" manageSessionForm.courtRoomNameSelected.$pristine || manageSessionForm.manageSessionsRoomStartDate.$pristine || manageSessionForm.manageSessionsRoomEndDate.$pristine || (manageSessionForm.manageSessionsRoomStartDate.$dirty && manageSessionForm.manageSessionsRoomStartDate.$invalid) || (manageSessionForm.manageSessionsRoomEndDate.$dirty && manageSessionForm.manageSessionsRoomEndDate.$invalid)">Close</button>
+						  	</div>
+						 	<div class="col-md-4 ">
+								<button class="btn btn-success" id="openSession" ng-click="diary.manageSessions(false)" ng-disabled=" manageSessionForm.courtRoomNameSelected.$pristine || manageSessionForm.manageSessionsRoomStartDate.$pristine || manageSessionForm.manageSessionsRoomEndDate.$pristine || (manageSessionForm.manageSessionsRoomStartDate.$dirty && manageSessionForm.manageSessionsRoomStartDate.$invalid) || (manageSessionForm.manageSessionsRoomEndDate.$dirty && manageSessionForm.manageSessionsRoomEndDate.$invalid)">Open</button>
+							</div>
+							<div class="col-md-8 col-md-offset-4">
+								<p id="manageSessionMessage" class="help-block">{{ diary.manageSessionOpenMessage }}</p>
+								<p id="manageSessionCloseMessage" class="help-block">{{ diary.manageSessionCloseMessage }}</p>
+								<p id="courtRoomStartDateInvalid" ng-show="manageSessionForm.manageSessionsRoomStartDate.$error.date">Invalid start date</p>
+								<p id="courtRoomEndDateInvalid" ng-show="manageSessionForm.manageSessionsRoomEndDate.$error.date">Invalid end date</p>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+			<!-- End: Allocation Judges -->
+		</div>
+
+		<div class="col-md-9 grid-right" role="role">
+			<div class="row">
+				<div class="container">
+				    <h1 id="courtCenter">The Crown Court at {{diary.courtCentre}}</h1>
+				</div>
+			    <hr />
+				<div class="container">
+					<div class="col-md-3">
+						<span><strong>Actual sitting days: </strong></span> 
+						<span id="actualSittingDays">{{diary.annualActualSittingDays}}</span>
+						<br />
+						<span><strong>Target sitting days: </strong></span> 
+						<span id="targetSittingDays">{{diary.sittings.annualTarget}}</span>
+					</div>
+					<div class="col-md-9">
+						<form name="plannerForm">
+							<div class="container">
+								<div class="col-md-4 text-right">
+									<button id="previousButton" ng-click="diary.prev()" class="btn btn-success">&lt;</button>
+									<button id="todayButton" ng-click="diary.today()" class="btn btn-success">Today</button>
+									<button id="nextButton" ng-click="diary.next()" class="btn btn-success">&gt;</button>
+								</div>
+
+								<div class="col-md-4 no-gutter">
+									<div date-format obj="diary" model="currentDate" name="dateInput" formName="plannerForm"></div>
+	    						</div>
+
+								<div class="col-md-2">
+									<button id="goto" ng-click="diary.navigateToDate()" class="form-control btn btn-primary">GO</button>
+								</div>
+								<div class="col-md-2">
+									<div class="row">
+										<select id="viewSelector" name="viewSelector" class="form-control" ng-model="diary.currentView" ng-options="view.label for view in diary.views" ng-change="diary.resetView()"></select>
+									</div>
+								</div>
+								<div class="col-md-12 has-error text-right">
+									<div class="row">
+										<p id="invalidDateAlert" class="help-block" ng-show="diary.invalidDate">Not a valid date!</p>
+									</div>
+								</div>
+							</div>
+						</form> 
+					</div>
+				</div>
+
+				<div class="container planner {{diary.currentView.cssClass}}">
+					<br />
+					<div class="table-wrapper">
+					    <div class="table-inner">
+							<div class="table-responsive">
+								<table class="table table-bordered table-striped table-condensed table-hover" id="listHearingTable">
+									<thead>
+										<tr>
+											<td class="col-md-1"><strong>Room Name</strong></td>
+											<td ng-repeat="day in diary.days"><strong>{{day | date:'EEE dd/MM'}}</strong></td>
+										</tr>
+									</thead>
+									<tbody>
+										<tr ng-repeat="room in diary.roomList">
+												<td class="col-md-1" id="courtRoom"><strong>{{ room.courtRoomName }} </strong></td>
+
+											<td class="col-md-2" ng-repeat="day in diary.days" ng-init="dayWeek = (day | date:'dd/MM/yyyy')">
+												<span ng-repeat="sitting in room.listCourtSessionWeb" ng-init="daySitting = (sitting.sittingDate | date:'dd/MM/yyyy')" >
+													<div ng-if="dayWeek == daySitting" id ="{{room.courtRoomName + '_' + dayWeek+ '_' +sitting.isClosed }}"  ng-class="{greystyle: sitting.isClosed == true}" >
+															<span ng-repeat="judgeName in sitting.judgeNames" id="{{room.courtRoomName + '_' + dayWeek + '_' + judgeName}}">{{judgeName}}</span>
+															<div id ="{{room.courtRoomName + '_' + dayWeek + '_' + sessionBlock.blockType}}" ng-repeat="sessionBlock in sitting.sessionBlockWebList | orderBy: 'blockShortCode'" class="block-style">
+																<span class="text-right block-type">{{sessionBlock.blockShortCode}}</span>
+																<div class="trail-info" id="{{room.courtRoomName + '_' + dayWeek + '_' +hearingWeb.hearingCase + '_' + hearingWeb.hearingName}}" ng-repeat="hearingWeb in sessionBlock.hearingWebList">
+																	<a id="{{room.courtRoomName + '_' + dayWeek + '_' +hearingWeb.hearingCase + '_' + hearingWeb.hearingName +'_link'}}" ng-href="#/schedule;" ng-click="diary.showScheduledHearingDetails(hearingWeb)">
+																		<span class="small">{{hearingWeb.hearingName}} {{hearingWeb.hearingCase}} {{hearingWeb.leadDefendant}}</span>
+																	</a>
+																	<span id="{{ hearingWeb.hearingName  + '_' + hearingWeb.trailDay  + '_' + hearingWeb.totalNoDays }}">{{hearingWeb.trailDay}}/{{hearingWeb.totalNoDays}}</span>
+																</div>
+															</div>
+													</div>
+												</span>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div case-view caseNo="diary.selectedHearing.hearingCase"></div>
+			<br /><br />
+		</div>
+
+	</div>
+
+</div>

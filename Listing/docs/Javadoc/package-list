@@ -1,0 +1,11 @@
+uk.co.listing
+uk.co.listing.cucumber
+uk.co.listing.dao
+uk.co.listing.domain
+uk.co.listing.domain.constant
+uk.co.listing.exceptions
+uk.co.listing.rest.message
+uk.co.listing.rest.response
+uk.co.listing.rest.service
+uk.co.listing.service
+uk.co.listing.utils

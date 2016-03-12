@@ -1,0 +1,210 @@
+<h1>
+<u>Release Notes
+</u>
+</h1>
+<h1>         Release Notes - Crown Court Scheduling - Version Release 0.9.2.0
+</h1> 
+<h2> Additonal Step when updating from version 0.9.1.1
+</h2> 
+<strong>Step 1 run the following script against the CCS application Postgres database.
+</strong>
+<p>
+<code>
+ALTER TABLE courtcenter ADD COLUMN code bigint;<br>
+UPDATE  courtcenter set  code = '404' where centername = 'Birmingham';<br>
+ALTER TABLE courtcenter ADD UNIQUE (centername);<br>
+ALTER TABLE courtcenter ADD UNIQUE (code);<br>
+</code>
+</p>
+<h2>        Defects Fixed
+</h2>
+<ul>
+<li>[<a href='https://triadmoj.atlassian.net/browse/CCS-614'>CCS-614</a>] -         Court room and booking type values in &quot;Hearing Information&quot; section is modified on the front end before a hearing has been actually listed
+</li>
+<li>[<a href='https://triadmoj.atlassian.net/browse/CCS-620'>CCS-620</a>] -         Deleting defendant for a case sometimes throws RuntimeException
+</li>
+<li>[<a href='https://triadmoj.atlassian.net/browse/CCS-621'>CCS-621</a>] -         Date format is ISO format on DOM1 browser
+</li>
+<li>[<a href='https://triadmoj.atlassian.net/browse/CCS-622'>CCS-622</a>] -         Hearing selected in &quot;Unscheduled Hearing&quot; drop down is not cleared when clicking on the link of an already listed Hearing
+</li>
+<li>[<a href='https://triadmoj.atlassian.net/browse/CCS-675'>CCS-675</a>] -         &quot;Date of Sending&quot; or &quot;Date of Committal&quot; is shown as &quot;01/01/1970&quot; in &quot;Create Case page&quot; when they were not entered during case creation.
+</li>
+</ul>        
+<h2>        Story
+</h2>
+<ul>
+<li>[<a href='https://triadmoj.atlassian.net/browse/CCS-326'>CCS-326</a>] -         Load Crest Data
+</li>
+<li>[<a href='https://triadmoj.atlassian.net/browse/CCS-445'>CCS-445</a>] -         Create Court Centre
+</li>
+<li>[<a href='https://triadmoj.atlassian.net/browse/CCS-519'>CCS-519</a>] -         Create Linked Cases
+</li>
+<li>[<a href='https://triadmoj.atlassian.net/browse/CCS-520'>CCS-520</a>] -         Create non available dates
+</li>
+<li>[<a href='https://triadmoj.atlassian.net/browse/CCS-521'>CCS-521</a>] -         Create Notes for Case
+</li>
+<li>[<a href='https://triadmoj.atlassian.net/browse/CCS-526'>CCS-526</a>] -         Edit (Now Delete) Notes
+</li>
+</ul>
+<h1>       Release Notes - Crown Court Scheduling - Version Release 0.9.1.1 Private Beta
+</h1>                             
+<h2>        Defects Fixed
+</h2>
+<ul>
+<li>[<a href='https://triadmoj.atlassian.net/browse/CCS-577'>CCS-577</a>] -         Listing a hearing and Find Slots, incorrectly uses unsaved estimates entered in front end
+</li>
+<li>[<a href='https://triadmoj.atlassian.net/browse/CCS-587'>CCS-587</a>] -         Tabs not working correctly
+</li>
+<li>[<a href='https://triadmoj.atlassian.net/browse/CCS-590'>CCS-590</a>] -         Hearing Estimate Edits do not affect the Choose slot calculation
+</li>
+</ul>
+<h2>        Story
+</h2>
+<ul>
+<li>[<a href='https://triadmoj.atlassian.net/browse/CCS-150'>CCS-150</a>] -         Add Room
+</li>
+<li>[<a href='https://triadmoj.atlassian.net/browse/CCS-377'>CCS-377</a>] -         Set Block Type
+</li>
+<li>[<a href='https://triadmoj.atlassian.net/browse/CCS-379'>CCS-379</a>] -         Close Blocks in Rooms for days
+</li>
+<li>[<a href='https://triadmoj.atlassian.net/browse/CCS-428'>CCS-428</a>] -         See date of sending/committal to Crown Court
+</li>
+<li>[<a href='https://triadmoj.atlassian.net/browse/CCS-433'>CCS-433</a>] -         View URN for Defendants
+</li>
+<li>[<a href='https://triadmoj.atlassian.net/browse/CCS-434'>CCS-434</a>] -         Display of defendants and number of defendants
+</li>
+<li>[<a href='https://triadmoj.atlassian.net/browse/CCS-435'>CCS-435</a>] -         CREST trial estimate values
+</li>
+<li>[<a href='https://triadmoj.atlassian.net/browse/CCS-436'>CCS-436</a>] -         Remand Status and Custody Time Limits
+</li>
+<li>[<a href='https://triadmoj.atlassian.net/browse/CCS-513'>CCS-513</a>] -         Book a hearing from search results
+</li>
+<li>[<a href='https://triadmoj.atlassian.net/browse/CCS-518'>CCS-518</a>] -         Create People and Defendents for case 
+</li>
+<li>[<a href='https://triadmoj.atlassian.net/browse/CCS-523'>CCS-523</a>] -         Edit Defendents
+</li>
+<li>[<a href='https://triadmoj.atlassian.net/browse/CCS-588'>CCS-588</a>] -         Navigate on planner should not clear hearing selection
+</li>
+<li>[<a href='https://triadmoj.atlassian.net/browse/CCS-589'>CCS-589</a>] -         Retain information in left panel when changing date view
+</li>
+</ul>
+    
+<h2>        Task
+</h2>
+<ul>
+<li>[<a href='https://triadmoj.atlassian.net/browse/CCS-502'>CCS-502</a>] -         Fix or escalate cobertura for Java 8 bug
+</li>
+<li>[<a href='https://triadmoj.atlassian.net/browse/CCS-533'>CCS-533</a>] -         Add config to Log4J to log to HaSS logstash
+</li>
+<li>[<a href='https://triadmoj.atlassian.net/browse/CCS-593'>CCS-593</a>] -         Changes to Create Case Page
+</li>
+<li>[<a href='https://triadmoj.atlassian.net/browse/CCS-605'>CCS-605</a>] -         remove static HTML from pages
+</li>
+</ul>
+<h1>         Release Notes - Crown Court Scheduling - Version Release 0.9.1
+</h1>                                                          
+<h2>        Defects fixed
+</h2>
+<ul>
+<li>[<a href='https://triadmoj.atlassian.net/browse/CCS-543'>CCS-543</a>] -         able to List hearing without selecting room
+</li>
+</ul>
+                                                                                            
+<h1>         Release Notes - Crown Court Scheduling - Version Release 0.3
+</h1>                             
+<h2>        Defects fixed
+</h2>
+<ul>
+<li>[<a href='https://triadmoj.atlassian.net/browse/CCS-437'>CCS-437</a>] -         Same judge name with spaces and without spaces is incorrectly considered as same judge.
+</li>
+<li>[<a href='https://triadmoj.atlassian.net/browse/CCS-495'>CCS-495</a>] -         Un-list button is enabled when selecting an un-listed hearing
+</li>
+<li>[<a href='https://triadmoj.atlassian.net/browse/CCS-496'>CCS-496</a>] -         Using same hearing name updates rather than creates a hearing
+</li>
+</ul>
+<h2>        Story
+</h2>
+<ul>
+<li>[<a href='https://triadmoj.atlassian.net/browse/CCS-133'>CCS-133</a>] -         User Login
+</li>
+<li>[<a href='https://triadmoj.atlassian.net/browse/CCS-368'>CCS-368</a>] -         Delete a hearing
+</li>
+<li>[<a href='https://triadmoj.atlassian.net/browse/CCS-371'>CCS-371</a>] -         Navigate to proposed slot
+</li>
+<li>[<a href='https://triadmoj.atlassian.net/browse/CCS-382'>CCS-382</a>] -         Edit Hearing from Planner
+</li>
+<li>[<a href='https://triadmoj.atlassian.net/browse/CCS-383'>CCS-383</a>] -         Edit Hearing from Case Page
+</li>
+<li>[<a href='https://triadmoj.atlassian.net/browse/CCS-384'>CCS-384</a>] -         Edit Hearing from Unlisted Hearings Element
+</li>
+<li>[<a href='https://triadmoj.atlassian.net/browse/CCS-387'>CCS-387</a>] -         User Logout
+</li>
+<li>[<a href='https://triadmoj.atlassian.net/browse/CCS-423'>CCS-423</a>] -         Find Empty slots
+</li>
+<li>[<a href='https://triadmoj.atlassian.net/browse/CCS-427'>CCS-427</a>] -         Find Partially available slots
+</li>
+<li>[<a href='https://triadmoj.atlassian.net/browse/CCS-498'>CCS-498</a>] -         Display Room value in booked hearing in case view
+</li>
+<li>[<a href='https://triadmoj.atlassian.net/browse/CCS-516'>CCS-516</a>] -         Improvements from guerilla testing 16/6/15
+</li>
+<li>[<a href='https://triadmoj.atlassian.net/browse/CCS-517'>CCS-517</a>] -         Create Case with intial fields
+</li>
+</ul>
+<h1>      Release Notes - Crown Court Scheduling - Version Release 0.2
+</h1>		
+<h2>        Story
+</h2>
+<ul>
+<li>[<a href='https://triadmoj.atlassian.net/browse/CCS-139'>CCS-139</a>] -         View Case - Pattern 1 attributes
+</li>
+<li>[<a href='https://triadmoj.atlassian.net/browse/CCS-144'>CCS-144</a>] -         Put hearing in slot
+</li>
+<li>[<a href='https://triadmoj.atlassian.net/browse/CCS-145'>CCS-145</a>] -         List case / hearing as provisional or confirmed
+</li>
+<li>[<a href='https://triadmoj.atlassian.net/browse/CCS-146'>CCS-146</a>] -         Remove Listing from planner page
+</li>
+<li>[<a href='https://triadmoj.atlassian.net/browse/CCS-247'>CCS-247</a>] -         Manage Monthly Sitting Target
+</li>
+<li>[<a href='https://triadmoj.atlassian.net/browse/CCS-291'>CCS-291</a>] -         Create Hearing for case
+</li>
+<li>[<a href='https://triadmoj.atlassian.net/browse/CCS-312'>CCS-312</a>] -         Set Target for future years
+</li>
+<li>[<a href='https://triadmoj.atlassian.net/browse/CCS-320'>CCS-320</a>] -         View Case - Pattern 2 attributes
+</li>
+<li>[<a href='https://triadmoj.atlassian.net/browse/CCS-321'>CCS-321</a>] -         View Case - Pattern 3 attributes
+</li>
+<li>[<a href='https://triadmoj.atlassian.net/browse/CCS-325'>CCS-325</a>] -         Delete Judge from Session
+</li>
+<li>[<a href='https://triadmoj.atlassian.net/browse/CCS-390'>CCS-390</a>] -         View Case - Pattern 4 attributes
+</li>
+</ul>
+<h1>        Release Notes - Crown Court Scheduling - Version Release 0.1 Alpha
+</h1>            
+<h2>        Epic
+</h2>
+<ul>
+<li>[<a href='https://triadmoj.atlassian.net/browse/CCS-134'>CCS-134</a>] -         Listing Officer View Planner
+</li>
+<li>[<a href='https://triadmoj.atlassian.net/browse/CCS-135'>CCS-135</a>] -         Allocate Judge to Court / Session
+</li>
+</ul>
+                                                                            
+<h2>        Story
+</h2>
+<ul>
+<li>[<a href='https://triadmoj.atlassian.net/browse/CCS-136'>CCS-136</a>] -         Set sitting days for financial year
+</li>
+<li>[<a href='https://triadmoj.atlassian.net/browse/CCS-137'>CCS-137</a>] -         View actual sitting days booked
+</li>
+<li>[<a href='https://triadmoj.atlassian.net/browse/CCS-193'>CCS-193</a>] -         View Week Planner
+</li>
+<li>[<a href='https://triadmoj.atlassian.net/browse/CCS-194'>CCS-194</a>] -         View Month (4 week) Planner
+</li>
+<li>[<a href='https://triadmoj.atlassian.net/browse/CCS-195'>CCS-195</a>] -         Go to date in Planner
+</li>
+<li>[<a href='https://triadmoj.atlassian.net/browse/CCS-196'>CCS-196</a>] -         Add Judge to list of Judges
+</li>
+<li>[<a href='https://triadmoj.atlassian.net/browse/CCS-197'>CCS-197</a>] -         Allocate Existing Judge to Court / Session
+</li>
+</ul>
+                            

@@ -1,0 +1,387 @@
+<div class="container-fluid" data-ng-controller="CaseViewController as vCase">
+	<div class="row">
+		<div class="col-md-3" role="complementary">
+		</div>
+		<div class="col-md-9" role="role">
+			<div class="row">
+			    <h1>View Cases</h1><hr />	
+				<form class="form-horizontal" role="form" name="manageCaseForm" novalidate>
+					<div class="container">
+						<div class="form-group">
+							<label class="col-md-3 control-label" for="caseCrestNumber">Case Crest Number:</label>
+							<div class="col-md-4">
+								<input type="text" class="form-control" id="caseCrestNumber" name="caseCrestNumber" ng-model="vCase.crestData.crestCaseNumber" placeholder="Enter a case number to view" required/> 
+							</div>
+						</div>
+
+						<div class="form-group">
+							<div class="col-md-4 col-md-offset-3"> 
+									<button id="getCaseDetailsButton" class="btn btn-success" ng-click="vCase.getCaseDetail(vCase.crestData.crestCaseNumber)" ng-disabled="manageCaseForm.caseCrestNumber.$invalid || manageCaseForm.caseCrestNumber.$pristine">Case details</button>
+							</div>
+							<div class="col-md-5">
+								<p ng-show="vCase.caseError" class="help-block">{{vCase.caseError}}</p>
+							</div>
+						</div>
+					</div>
+
+					<div class="container" ng-show="vCase.showCase">
+						<div class="form-group">
+							<label class="col-md-3 control-label">Case Crest Number:</label>
+							<div class="col-md-4">
+								<input class="form-control" id="crestCaseNumber" value="{{vCase.crestData.crestCaseNumber}}" disabled>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label class="col-md-3 control-label">Lead Defendant:</label>
+							<div class="col-md-4">
+								<input class="form-control" id="leadDefendant" value="{{vCase.crestData.leadDefendant}}" disabled>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label class="col-md-3 control-label">Number Of Defendants:</label>
+							<div class="col-md-4">
+								<input class="form-control" id="numberOfDefendent" value="{{vCase.crestData.numberOfDefendent}}" disabled>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label class="col-md-3 control-label">Most Serious Offence:</label>
+							<div class="col-md-4">
+								<input class="form-control" id="mostSeriousOffence" value="{{vCase.crestData.mostSeriousOffence}}" disabled>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label class="col-md-3 control-label">Trial Estimate:</label>
+							<div class="col-md-4">
+								<input class="form-control" id="trialEstimate" value="{{vCase.crestData.trialEstimate}}" disabled>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label class="col-md-3 control-label">Trial Estimate Unit:</label>
+							<div class="col-md-4">
+								<input class="form-control" id="trialEstimateUnit" value="{{vCase.crestData.trialEstimateUnit}}" disabled>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label class="col-md-3 control-label">Offence Class:</label>
+							<div class="col-md-4">
+								<input class="form-control" id="offenceClass" value="{{vCase.crestData.offenceClass}}" disabled>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label class="col-md-3 control-label">Release Decision Status:</label>
+							<div class="col-md-4">
+								 <input class="form-control" id="releaseDecisionStatus" value="{{vCase.crestData.releaseDecisionStatus}}" disabled>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label class="col-md-3 control-label">Ticketing Requirement:</label>
+							<div class="col-md-4">
+								<input class="form-control" id="ticketingRequirement" value="{{vCase.crestData.ticketingRequirement}}" disabled>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label class="col-md-3 control-label">Date of Sending:</label>
+							<div class="col-md-4">
+								<input type="date" class="form-control" id="dateOfSending" name="dateOfSending" ng-model="vCase.dateOfSending" value="{{vCase.dateOfSending}}" disabled />
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label class="col-md-3 control-label">Date of Committal:</label>
+							<div class="col-md-4">
+								<input type="date" class="form-control" id="dateOfCommittal" name="dateOfCommittal" ng-model="vCase.dateOfCommittal" value="{{vCase.dateOfCommittal}}" disabled />
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<label class="col-md-3 control-label">Case Closed:</label>
+							<div class="col-md-4">
+								<input class="form-control" id="caseClosed" value="{{vCase.crestData.caseCompleted}}" disabled>
+							</div>
+						</div>
+					</div>
+				</form>
+			</div>
+
+			<br />
+
+			<div ng-show="vCase.showCase">
+				<div class="row">
+					<div class="container pull-left">
+						<h3 class="col-md-3">Notes:</h3>
+						<div class="col-md-4" ng-if="vCase.crestData.notesWeb.length == 0">
+							<br />
+							<p id="emptyNotes">No notes</p>
+						</div>
+					</div>
+
+					<div class="container pull-left">
+						<div ng-if="vCase.crestData.notesWeb.length > 0">
+							<div class="table-responsive col-md-12">
+								<table class="table table-bordered table-condensed" id="caseNotes">
+									<thead>
+										<tr>
+											<th class="col-md-1">Creation date</th>
+											<th class="col-md-10">Note</th>
+											<th class="col-md-1">Diary date</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr ng-repeat="note in vCase.crestData.notesWeb">
+											<td class="span2">{{note.creationDate | date:'dd/MM/yyyy'}}</td>
+											<td class="span6">{{note.note}}</td>
+											<td class="span2">{{note.diaryDate | date:'dd/MM/yyyy'}}</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<br />
+
+				<div class="row">
+					<div class="container">
+						<h3 class="col-md-3">Linked cases:</h3>
+						<div class="col-md-4" ng-if="vCase.crestData.linkedCases.length == 0">
+							<br />
+							<p id="emptyLinkedCases">No linked cases</p>
+						</div>
+					</div>
+
+					<div class="container pull-left">
+						<div ng-if="vCase.crestData.linkedCases.length > 0">
+							<div class="table-responsive col-md-12">
+								<table class="table table-bordered table-condensed table-striped" id="linkedCases">
+									<thead>
+										<tr>
+											<th class="col-md-4">Case Crest Number</th>
+											<th class="col-md-4">Lead Defendant</th>
+											<th class="col-md-4">Lead Offence</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr ng-repeat="linkedCase in vCase.crestData.linkedCases">
+											<td class="col-md-4">
+												<a href="" ng-click="vCase.getCaseDetail(linkedCase.crestCaseNumber)">{{linkedCase.crestCaseNumber}}</a>
+											</td>
+											<td class="col-md-4">{{linkedCase.leadDefendant}}</td>
+											<td class="col-md-4">{{linkedCase.mostSeriousOffence}}</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<br />
+
+				<div class="row">
+					<div class="container">
+						<h3 class="col-md-3">Defendants:</h3>
+						<div class="col-md-4" ng-if="vCase.crestData.personInCaseList.length == 0">
+							<br />
+							<p id="emptyNotes">No Defandants</p>
+						</div>
+					</div>
+
+					<div class="container pull-left">
+						<div ng-if="vCase.crestData.personInCaseList.length > 0">
+							<div class="table-responsive col-md-12">
+								<table class="table table-bordered table-condensed table-striped" id="peopleInCase">
+									<thead>
+										<tr>
+											<th class="col-md-3">Name</th>
+											<th class="col-md-2">Case URN</th>
+											<th class="col-md-2">Status</th>
+											<th class="col-md-2">CTL Expires on</th>
+											<th class="col-md-2">Days for CTL Expiry</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr ng-repeat="personInCase in vCase.crestData.personInCaseList | orderBy: 'personInvCase.fullname' ">
+											<td class="col-md-3">{{personInCase.fullname}}</td>
+											<td class="col-md-2">{{personInCase.crestURN}}</td>
+											<td class="col-md-2">{{personInCase.custodyStatus}}</td>
+											<td class="col-md-2">{{personInCase.ctlExpiryDate  | date:'dd/MM/yyyy'}}</td>
+											<td class="col-md-2">{{personInCase.noOfDayForCTLExpiry}}</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<br />
+
+				<div class="row">
+					<div class="container">
+						<h3 class="col-md-3">Non Availability:</h3>
+						<div class="col-md-4" ng-if="vCase.crestData.crustNonAvailableDateList.length == 0">
+							<br />
+							<p id="noNoAvailability">No non availability</p>
+						</div>
+					</div>
+
+					<div class="container pull-left">
+						<div ng-if="vCase.crestData.crustNonAvailableDateList.length > 0">
+							<div class="table-responsive col-md-12">
+								<table class="table table-bordered table-condensed table-striped" id="nonAvailableDates">
+									<thead>
+										<tr>
+											<th class="col-md-4">Reason</th>
+											<th class="col-md-4">Start Date</th>
+											<th class="col-md-4">End Date</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr ng-repeat="crestNonAvailableDate in vCase.crestData.crustNonAvailableDateList">
+											<td class="col-md-4">{{crestNonAvailableDate.reason}}</td>
+											<td class="col-md-4">{{crestNonAvailableDate.startDate | date:'dd/MM/yyyy'}}</td>
+											<td class="col-md-4">{{crestNonAvailableDate.endDate | date:'dd/MM/yyyy'}}</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<br />
+
+				<div class="row">
+					<div class="container">
+						<h3 class="col-md-3">List of hearings:</h3>
+						<div class="col-md-4" ng-if="vCase.crestData.hearings.length == 0">
+							<br />
+							<p id="emptyHearings">No hearings listed</p>
+						</div>
+					</div>
+
+					<div class="container pull-left">
+						<div ng-if="vCase.crestData.hearings.length > 0">
+							<form class="form-horizontal" name="editHearingFrom" role="form" novalidate>
+								<div class="table-responsive col-md-12">
+									<table class="table table-bordered table-condensed table-striped" id="hearings">
+										<thead>
+											<tr>
+												<th class="col-md-1">Name</th>
+												<th class="col-md-1">Date</th>
+												<th class="col-md-1">Type</th>
+												<th class="col-md-1">Room</th>
+												<th class="col-md-1">Hearing Estimation</th>
+												<th class="col-md-1">Annotation</th>
+												<th class="col-md-1">Booking Status</th>
+												<th class="col-md-1">Booking Type</th>
+												<th class="col-md-1">Trial KPI Date</th>
+												<th class="col-md-2"></th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr ng-repeat="hearing in vCase.crestData.hearings">
+												<td class="col-md-1" id="hearingName_{{hearing.hearingName}}" >{{hearing.hearingName}}</td>
+												<td class="col-md-1" id="hearingStartDate_{{hearing.hearingName}}">{{hearing.startDate}}</td>
+												<td class="col-md-1" id="hearingType_{{hearing.hearingName}}">{{hearing.hearingType}}</td>
+												<td class="col-md-1" id="hearingCourtRoomName_{{hearing.hearingName}}">{{hearing.courtRoomName}}</td>
+												
+												<td ng-if="hearing.bookingStatus === 'Unscheduled'">
+													<input id="hearingTrialEstimateSelected_{{hearing.hearingName}}" type="number" 
+													ng-model="hearing.trialEstimate">
+												</td>
+												<td ng-if="hearing.bookingStatus=='Scheduled'">
+													<span id="hearingTrialEstimateSelected_{{hearing.hearingName}}">{{hearing.trialEstimate}}</span>
+												</td>
+
+												<td>
+													<input id="hearingNoteSelected_{{hearing.hearingName}}" 
+													name="hearingNoteSelected" type="text"
+													ng-model="hearing.hearingNote">
+												</td>
+
+												<td class="col-md-1" id="hearingBookingStatus_{{hearing.hearingName}}">{{hearing.bookingStatus}}</td>
+												
+												<td ng-if="hearing.bookingStatus === 'Unscheduled'">
+													<span id="hearingBookingTypeSelected_{{hearing.hearingName}}" value="0">&nbsp;</span>
+												</td>
+												<td ng-if="hearing.bookingStatus === 'Scheduled'">
+													<select 
+														class="col-md-1 form-control"
+														id="hearingBookingTypeSelected_{{hearing.hearingName}}" 
+														name="hearingBookingTypeSelected" 
+														ng-model="hearing.hearingBookingTypeSelected"
+														ng_init="hearing.hearingBookingTypeSelected = hearing.bookingType">
+														<option value="Provisional">Provisional</option>
+														<option value="Confirmed">Confirmed</option>
+													</select>
+												</td>
+												<td class="col-md-1" id="hearingKPIDate_{{hearing.hearingName}}">{{hearing.trialKPIDate | date:'dd/MM/yyyy'}}</td>
+												<td>
+													<button 
+														id="editHearing_{{hearing.hearingName}}" 
+														ng-click="vCase.createHearing(hearing)" 
+														ng-disabled="editHearingForm.hearingNoteSelected.$invalid"
+														class="btn btn-success">
+														Set
+													</button>
+													<button 
+														id="removeHearing_{{hearing.hearingName}}" 
+														ng-click="vCase.removeHearing(hearing)" 
+														class="btn btn-warning">
+														Delete
+													</button>
+												</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+				
+				<br />
+
+				<div class="row">
+					<form name="createHearingForm" class="form-horizontal" novalidate>
+						<div class="container">
+							<div class="form-group form-field-left">
+								<label class="col-md-3 control-label" for="hearingName">New Hearing Name:</label>
+								<div class="col-md-4">
+									<input type="hidden" class="form-control" ng-model="courtCenterName" value="{{courtCenterName }}" />
+								 	<input type="text" class="form-control" id="hearingName" name="hearingName" ng-model="vCase.hearingName" required />
+								</div>
+							</div>
+							<div class="form-group">
+								<div class="col-md-4 col-md-offset-3">
+									<button id="createHearing" class="btn btn-success"
+											ng-disabled="createHearingForm.hearingName.$invalid || createHearingForm.hearingName.$pristine"
+											ng-click="vCase.createHearing(vCase.hearingName, vCase.crestData)">
+											Create Hearing
+									</button>
+
+								</div>
+								<div class="col-md-5" id="NameError">
+									<p ng-show="vCase.hearingNameMessage" id="hearingNameMessage" class="help-block">{{vCase.hearingNameMessage}}</p>
+								</div>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+
+	</div>
+</div>
+

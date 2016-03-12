@@ -1,0 +1,223 @@
+<div class="container-fluid" data-ng-controller="ManageCaseController as case">
+	<div class="row" ng-init="case.init()">
+		<div class="col-md-3" role="complementary">
+		</div>
+		<div class="col-md-9" role="role">
+			<div class="row">
+			    <h1>Manage Case</h1><hr />	
+				<form class="form-horizontal" role="form" name="caseForm" novalidate>
+					<div class="container">
+						<div class="form-group">
+							<label class="col-md-3 control-label" for="courtCenterList">Court Centre *:</label>
+							<div class="col-md-4">
+								<select id="courtCenterList" name="courtCenterList" class="form-control" 
+									ng-model = "case.selectedCourt"
+									required>
+									<option ng-repeat="center in case.courtLists">{{center.courtCenterName}}</option>
+								</select>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label class="col-md-3 control-label" for="crestCaseNumber">Case Crest Number *:</label>
+							<div class="col-md-4">
+								<input type="text" class="form-control" id="crestCaseNumber" name="crestCaseNumber" 
+								ng-model="case.crestData.crestCaseNumber"
+								value="{{case.crestData.crestCaseNumber}}"
+								placeholder="Enter case crest number" required/> 
+							</div>
+						</div>
+					</div>
+	
+					<div class="container" ng-show="!case.showCaseDetail">
+						<div class="form-group">
+							<div class="col-md-4 col-md-offset-3">
+								<button id="getCaseDetailsButton" class="btn btn-success" 
+									ng-click="case.getCaseDetail(case.crestData.crestCaseNumber)" 
+									ng-disabled="caseForm.crestCaseNumber.$invalid || caseForm.crestCaseNumber.$pristine">
+									Find Case
+								</button>
+
+								<button id="addCase" class="btn btn-success" 
+									ng-click="case.addCase(case.crestData.crestCaseNumber)" 
+									ng-disabled="caseForm.crestCaseNumber.$invalid || 
+									caseForm.crestCaseNumber.$pristine">
+									Add Case
+								</button>
+							</div>
+							<div class="col-md-4">
+								<p ng-show="case.courtCaseMessage" class="help-block">{{case.courtCaseMessage}}</p>
+							</div>
+						</div>
+					</div>
+
+					<div class="container" ng-show="case.showCaseDetail">
+						<div class="form-group">
+							<label class="col-md-3 control-label">Lead Defendant *:</label>
+							<div class="col-md-4">
+								<input class="form-control" id="leadDefendant" name="leadDefendant" ng-model="case.crestData.leadDefendant" required>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label class="col-md-3 control-label">Number Of Defendants *:</label>
+							<div class="col-md-4">
+								<input type="number" min="0" class="form-control" id="numberOfDefendent" name="numberOfDefendent" ng-model="case.crestData.numberOfDefendent" required>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label class="col-md-3 control-label">Most Serious Offence:</label>
+							<div class="col-md-4">
+								<input class="form-control" id="mostSeriousOffence" name="mostSeriousOffence" ng-model="case.crestData.mostSeriousOffence">
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label class="col-md-3 control-label">Trial Estimate:</label>
+							<div class="col-md-4">
+								<input class="form-control" id="trialEstimate" name="trialEstimate" ng-model="case.crestData.trialEstimate">
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label class="col-md-3 control-label" for="trialEstimateUnit">Trial Estimate Unit:</label>
+							<div class="col-md-4">
+								<select id="trialEstimateUnit" name="trialEstimationUnit" 
+									class="form-control"
+									ng-model="case.crestData.trialEstimateUnit">
+									<option ng-repeat="unit in case.trialEstimationUnitList">{{unit}}</option>
+								</select>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label class="col-md-3 control-label">Offence Class *:</label>
+							<div class="col-md-4">
+								<select id="offenceClass" name="offenceClass" class="form-control"
+									ng-model="case.crestData.offenceClass" 
+									required>
+									<option ng-repeat="offence in case.offenceClassList">{{offence}}</option>
+								</select>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label class="col-md-3 control-label">Release Decision Status *:</label>
+							<div class="col-md-4">
+								<select id="releaseDecisionStatus" class="form-control"
+										name="releaseDecisionStatus" 
+										ng-model="case.crestData.releaseDecisionStatus"
+										required>
+									<option ng-repeat="releaseDecision in case.releaseDecisionList">{{releaseDecision}}</option>
+								</select>
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<label class="col-md-3 control-label">Judge :</label>
+							<div class="col-md-4">
+								<select id="judgeSelected" class="form-control"
+										name="judgeSelected" 
+										ng-model="case.crestData.judicialOfficer"
+										required>
+									<option >No Judge</option>	
+									<option ng-repeat="judgeName in case.listOfJudges">{{judgeName.fullname}}</option>
+									
+								</select>
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<label class="col-md-3 control-label" for="ticketingRequirement">Ticketing Requirement *:</label>
+							<div class="col-md-4">
+								<select class="form-control" id="ticketingRequirement" name="ticketingRequirement" 
+									ng-model="case.crestData.ticketingRequirement" required>
+									<option ng-repeat="ticketing in case.ticketingRequirementList">{{ticketing}}</option>
+								</select>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label class="col-md-3 control-label" for="dateOfSending">Date of Sending **:</label>
+							<div class="col-md-4">
+								<div date-format obj="case" model="dateOfSending" name="dateOfSending" formName="caseForm"></div>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label class="col-md-3 control-label">Date of Committal **:</label>
+							<div class="col-md-4">
+ 								<div date-format obj="case" model="dateOfCommittal" name="dateOfCommittal" formName="caseForm"></div>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<div class="col-md-4 col-md-offset-3">
+								<p><strong>(*) Mandatory fields</strong></p>
+								<p><strong>(**) You have to fill up at least one of these two fields</strong></p>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<div class="col-md-4 col-md-offset-3">
+								<button id="setCaseDetailsButton" class="btn btn-success" 
+									ng-disabled="caseForm.crestCaseNumber.$invalid || 
+										caseForm.leadDefendant.$invalid ||
+										caseForm.numberOfDefendent.$invalid || 
+										caseForm.offenceClass.$invalid || 
+										caseForm.releaseDecisionStatus.$invalid ||
+										caseForm.ticketingRequirement.$invalid ||
+										( caseForm.dateOfCommittal.$invalid && caseForm.dateOfSending.$invalid )" 
+									ng-click="case.saveCase(case.crestData.crestCaseNumber, case.selectedCourt, case.crestData)">
+									Save Case
+								</button>
+
+								<button id="resetCase" class="btn btn-success"
+									ng-click="case.resetCaseFields()">
+									Reset
+								</button>
+							</div>
+
+							<div class="col-md-4">
+								<p ng-show="case.caseSaveMessage" class="help-block">{{case.caseSaveMessage}}</p>
+								<p id="emptyFieldsError" ng-show="
+										caseForm.crestCaseNumber.$invalid || 
+										caseForm.leadDefendant.$invalid || 
+										caseForm.numberOfDefendent.$invalid || 
+										caseForm.offenceClass.$invalid || 
+										caseForm.releaseDecisionStatus.$invalid ||
+										caseForm.ticketingRequirement.$invalid || 
+										( caseForm.dateOfCommittal.$invalid && caseForm.dateOfSending.$invalid )">
+										One or more of the mandatory fields have not been entered, or both of the dates are empty. Please check the * and ** fields
+								</p>
+							</div>
+						</div>
+						
+						<hr />
+						
+						<div ng-show="case.showDefendant" >
+
+							<div case-defendant case="case"></div>
+	
+							<div case-note case="case"></div>
+	
+							<div case-linked-cases case="case"></div>
+							
+							<div case-non-available-dates case="case"></div>
+	
+							<div case-hearing case="case.crestData"></div>
+						</div>
+
+					</div>
+
+				</form>
+			</div>
+
+			<br />
+
+		</div>
+
+	</div>
+</div>
+

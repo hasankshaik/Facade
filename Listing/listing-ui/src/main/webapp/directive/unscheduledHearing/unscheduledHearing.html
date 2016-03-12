@@ -1,0 +1,124 @@
+<div>
+	<br />
+	<div class="panel panel-default">
+		<div class="panel-heading" data-toggle="collapse" data-target="#infoHearingsDiv">Hearing Information</div>
+		<div id="infoHearingsDiv" class="panel-body" class="collapse" ng-model="selectedHearing" ng-show="showHearingInfoFlag">
+			<div class=""><label>Hearing Name :</label> <span  id="hearingInfo" value="{{selectedHearing.hearingName}}">{{selectedHearing.hearingName}}</span></div>
+			<div class=""><label>Crest Number :</label> <span>{{selectedHearing.hearingCase}}</span></div> 
+			<div class=""><label>Hearing Type :</label> <span>{{selectedHearing.hearingType}}</span></div>
+			<div class=""><label>Booking Type :</label> <span id="hearingInfoBookingType">{{selectedHearing.bookingType}}</span></div>
+			<div class=""><label>Estimate :</label> <span>{{selectedHearing.trialEstimate}}</span></div>
+			<div class=""><label>Start Date :</label> <span>{{selectedHearing.startDate}}</span></div>
+			<div class=""><label>Booking Status:</label> <span>{{selectedHearing.bookingStatus}}</span></div>
+			<div class=""><label>Court Room:</label><span id="hearingInfoCourtRoom">{{selectedHearing.courtRoomName}}</span></div>
+			<br />
+			<button id="unListHearing" ng-click="unListHearing()" ng-disabled="selectedHearing.bookingStatus !='Scheduled'" class="btn btn-success">Un-List</button>
+		</div>
+	</div>
+
+	<div class="panel panel-default">
+		<div class="panel-heading" data-toggle="collapse" data-target="#unListedHearingsDiv">Unscheduled Hearings</div>
+		<div id="unListedHearingsDiv" class="panel-body" class="collapse">
+			<div class="row">
+				<div class="col-md-6">
+					<select id="selectedUnscheduledHearing" class="form-control" name="selectedUnscheduledHearing" ng-model="selectedUnscheduledHearing" ng-options="hearing.hearingName for hearing in unlistedHearings track by hearing.hearingKey" ng-change="onUnScheduledHearingSelection()"></select>
+				</div>
+				<div class="col-md-5">
+					<button id="getHearingSlotsButton" ng-click="openDialog()" ng-disabled="(selectedUnscheduledHearing == null || selectedUnscheduledHearing.length==0)" class="btn btn-success">Choose Slot</button>
+				</div>
+				<div class="col-md-12">
+					<br />
+					<input type="checkbox" id="overBookCheck" name="overBookCheck" ng-model="overbook" /> &nbsp;Overbook
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="panel panel-default">
+		<div class="panel-heading" data-toggle="collapse" data-target="#editEstimateDiv">Edit Estimate</div>
+		<div id="#editEstimateDiv" class="panel-body" class="collapse" ng-show="showEditEstimateFlag">
+			<form role="form" name="editEstimateForm" novalidate >
+				<div class="form-group">
+					<label class="col-md-3 control-label row" for="trialEstimateId"><strong>Estimate :</strong></label>
+					<div class="col-md-4">
+						<input class="form-control" type="number" min="1" max="9999" placeholder="Enter trail estimate" id="trialEstimateId" name="trialEstimateId" ng-model="editTrialEstimate" required/>
+					</div>
+				</div>				
+				<div class="form-group">
+					<div class="col-md-4">
+						<button id="editEstimate" class="btn btn-success" ng-click="editEstimate()" ng-disabled="editEstimateForm.trialEstimateId.$invalid || selectedUnscheduledHearing.bookingStatus=='Scheduled' || editEstimateForm.editTrialEstimate.$pristine">Save</button>
+					</div>
+					<div class="col-md-5">
+						<p ng-show="editEstimateMessage" class="help-block">{{ editEstimateMessage }}</p>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+
+	<div class="panel panel-default"> 
+		<div class="panel-heading"  data-toggle="collapse" data-target="#listHearingsDiv">List Hearing</div>
+		<div id="listHearingsDiv" class="panel-body" ng-show="showUnScheduledHearingFlag" class="collapse">
+			<form class="form-horizontal" role="form" name="listHearingForm" novalidate>
+				<div class="form-group">
+					<label class="col-md-4 control-label" for="hearingStartDate">Start Date :</label>
+					<div class="col-md-8">
+						<input class="form-control" type="date" id="hearingStartDate" name="hearingStartDate" ng-model="hearingStartDate" ng-change="moveDatesForListing(hearingStartDate)" placeholder="yyyy-mm-dd" required/>
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label class="col-md-4 control-label" for="roomForListing">Court Room:</label>
+					<div class="col-md-8">
+						<select class="form-control" id="roomForListing" name="roomForListing" ng-change="clearMessages()" ng-model="selectedUnscheduledHearing.courtRoomName" required > 
+					   		<option ng-repeat="room in roomList" title="{{room.courtRoomName}}" ng-selected="{{room.courtRoomName == selectedUnscheduledHearing.courtRoomName}}" value="{{room.courtRoomName}}" >{{room.courtRoomName}}</option>
+						</select>
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label class="col-md-4 control-label" for="hearingBookingType">Booking Type:</label>
+					<div class="col-md-8">
+						<select class="form-control" id="hearingBookingType" name="hearingBookingType" ng-change="clearMessages()" ng-model="selectedUnscheduledHearing.bookingType" required>
+							<option value="Provisional">Provisional</option>
+							<option value="Confirmed">Confirmed</option>
+						</select>
+					</div>
+				</div>
+
+				<div class="form-group">
+					<div class="col-md-4 col-md-offset-4">
+						<button class="btn btn-success" id="listHearing" ng-click="listHearing()" ng-disabled="listHearingForm.hearingBookingType.$invalid || listHearingForm.roomForListing.$invalid || listHearingForm.hearingStartDate.$invalid">List</button>
+					</div>
+					<div class="col-md-8 col-md-offset-4">
+						<p ng-show="listHearingMessage" class="help-block">{{ listHearingMessage }}</p>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+
+												
+	<div class="panel panel-default"> 
+		<div class="panel-heading"  data-toggle="collapse" data-target="#editHearingsDiv" >Edit Hearing</div>
+		<div id="editHearingsDiv" class="panel-body" ng-show="showScheduledHearingFlag" class="collapse">
+			<form class="form-horizontal" role="form" name="editHearingForm" novalidate>
+				Estimate: <input id="scheduledTrialEstimateId" name="scheduledTrialEstimateInput" class="form-control" type ="text" ng-model="scheduledHearing.trialEstimate" required />
+			<span id="trialEstimateInputInvalid" style="color: red" ng-show="editHearingForm.trialEstimateInput.$error.required && scheduledHearing!='' " value="Not an allowed combination of fields">Not an allowed combination of fields</span>
+				Start Date : <input type="date" id="scheduledHearingStartDate" ng-model="scheduledHearingStartDate" ng-change="moveDatesForListing(scheduledHearingStartDate)" />	<br/>
+				Court Room : <select id="scheduledRoomForListing" ng-change="clearMessages()" ng-model="scheduledHearing.courtRoomName" >
+			   						<option ng-repeat="room in roomList" title="{{room.courtRoomName}}" ng-selected="{{room.courtRoomName == scheduledHearing.courtRoomName}}" value="{{room.courtRoomName}}">{{room.courtRoomName}}</option>
+							 </select><br/>
+				Booking Type :<select id="scheduledHearingBookingType" ng-change="clearMessages()"   ng-model="scheduledHearing.bookingType"> 
+									<option value="Provisional">Provisional</option>
+											<option value="Confirmed">Confirmed</option>
+							</select><br/>
+			<button id="updateHearing" ng-click="updateHearing()" ng-disabled="editHearingForm.scheduledTrialEstimateInput.$invalid" class="btn btn-success">Save</button>
+			<div><span id="editHearingSucceed" style="color: green"	value="{{editHearingSucceed}}">{{editHearingSucceed}}</span>
+			<span id="editHearingFailure" style="color: red" value="{{editHearingFailure}}">{{editHearingFailure}}</span>
+			</div>
+			</form>
+		</div>
+	</div>
+	
+</div>

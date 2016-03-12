@@ -1,0 +1,25 @@
+{
+  "generator-cppAng": {
+    "uirouter": true,
+    "ngmaterial": false,
+    "partialDirectory": "partial/",
+    "modalDirectory": "partial/",
+    "directiveDirectory": "directive/",
+    "filterDirectory": "filter/",
+    "serviceDirectory": "service/",
+    "generatorVersion": "1.1.1",
+    "inject": {
+      "js": {
+        "file": "index.html",
+        "marker": "<!-- Add New Component JS Above -->",
+        "template": "<script src=\"<%= filename %>\"></script>"
+      },
+      "less": {
+        "relativeToModule": true,
+        "file": "<%= module %>.less",
+        "marker": "/* Add Component LESS Above */",
+        "template": "@import \"<%= filename %>\";"
+      }
+    }
+  }
+}

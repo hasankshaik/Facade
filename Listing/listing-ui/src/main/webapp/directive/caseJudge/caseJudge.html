@@ -1,0 +1,72 @@
+<div>
+	<!-- Judge : Start -->
+	<div class="row" ng-init="init()">
+		<div class="container">
+			<div class="form-group">
+				<label class="col-md-3 control-label" for="judgeAllocated">Allocated Judge:</label>
+				<div class="col-md-4">
+					<input class="form-control" id="judgeAllocated" value="{{case.crestData.judicialOfficer}}" disabled>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Judge : End -->
+
+	<!-- Add Judge Panel: Start -->
+	<div class="container">
+
+		<div class="form-group">
+			<div class="col-md-3">
+				<button id="changeAllocationJudgeButton" class="btn btn-success" 
+					ng-click="allocateJudge()" 
+					ng-show="!showAAllocateJudge">
+					Change allocation
+				</button>
+ 			</div>
+ 			<div class="col-md-4">
+	 			<p id="allocateJudgeMessage" 
+	 				ng-show="allocateJudgeMessage">
+	 				{{allocateJudgeMessage}}
+	 			</p>
+	 		</div>
+		</div>
+
+		<form class="form-horizontal" role="form" name="judgeForm" novalidate>
+			<div id="showAllocateJudgePanel" ng-show="showAllocateJudge">
+				
+				<div class="form-group">
+					<label class="col-md-3 control-label" for="judgeSelected">
+					Judge*:
+					</label>
+					<div class="col-md-4">
+						<select id="judgeSelected" 
+									class="form-control" 
+									name="judgeSelected" 
+									ng-model="case.judgeSelected" 
+									required>
+										<option ng-repeat="judgeName in listOfJudges">{{judgeName.fullname}}</option>
+									</select>
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="col-md-1 col-md-offset-3">
+				 		<button id="saveJudgeButton" class="btn btn-success" 
+					 		ng-click="saveJudge(case.crestData.crestCaseNumber,case)"
+					 		ng-disabled="judgeForm.judgeSelected.$invalid">
+					 		Allocate to Case
+		 				</button>
+		 			</div>
+		 			<div class="col-md-1 col-md-offset-3">
+				 		<button id="deallocateJudgeButton" class="btn btn-success" 
+					 		ng-click="deallocateJudge(case.crestData.crestCaseNumber)"
+					 		ng-disabled="case.crestData.judicialOfficer==null">
+					 		De-allocate judge from case
+		 				</button>
+		 			</div>
+
+				</div>
+			</div>
+		</form>
+	</div>
+	<!-- Add Notes Panel: End -->
+</div>

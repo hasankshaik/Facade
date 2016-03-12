@@ -1,0 +1,30 @@
+Plugins
+
+build-name-setter
+GIT plugin
+GitHub plugin
+
+
+Project Config
+
+Discard Old Builds
+Source Code Management = Git
+Build Triggers
+	- Build whenever a SNAPSHOT dependency is built
+	- Build periodically: - (Schedule = H 1 * * *  daily)
+						  - (Schedule = H/2 * * * *  every 2 min)
+						  
+Build Environment
+	- Set Build Name : AppDeploy-${BUILD_NUMBER} 
+	
+Build
+	- Root POM:  Listing\pom.xml
+	- Goals and options : clean install -Dbuild.number=${BUILD_NUMBER} 
+Post Steps
+	- Run only if build succeeds
+	Execute windows command 
+			- cd /D D:/servers/apache-tomcat-8.0.20/tomcatAll.bat
+			
+Post-build Actions
+	- Deploy War : **/Listing*.war
+	 

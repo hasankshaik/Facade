@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+
+  <title>REST API: SittingsRestService</title>
+
+  <!-- Mobile viewport optimized: j.mp/bplateviewport -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+
+  <!--custom css for these pages-->
+  <link rel="stylesheet" href="css/style.css">
+
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/prettify/r298/prettify.css" type="text/css">
+
+  <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+  <!--[if lt IE 9]>
+  <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+  <![endif]-->
+</head>
+
+<body data-spy="scroll" data-target="#apinav">
+
+  <nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="index.html">REST API: SittingsRestService</a>
+      </div>
+      <div id="navbar" class="navbar-collapse collapse">
+        <ul class="nav navbar-nav navbar-right">
+          <li><a href="resources.html">Resources</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-sm-3 col-md-2 sidebar" id="apinav">
+        <ul class="nav nav-sidebar">
+          <li><a href="#resource_SittingsRestService_setAnnualSittingTarget_PUT"><abbr title="PUT /sitting/annual-sitting-target">PUT /sitting/annual-sitting-ta...</abbr></a></li>
+          <li><a href="#resource_SittingsRestService_getAnnualSittingTarget_GET"><abbr title="GET /sitting/annual-sitting-target/{courtCenter}/{financialYear}">GET /sitting/annual-sitting-ta...</abbr></a></li>
+          <li><a href="#resource_SittingsRestService_getAnnualActualSittingDays_GET"><abbr title="GET /sitting/annual-actual-sitting-days/{courtCenterName}/year/{year}">GET /sitting/annual-actual-sit...</abbr></a></li>
+          <li><a href="#resource_SittingsRestService_getAnnualActualSittingDays_GET"><abbr title="GET /sitting/annual-actual-sitting-days/{courtCenterName}/date/{date}">GET /sitting/annual-actual-sit...</abbr></a></li>
+          <li><a href="#resource_SittingsRestService_getMonthlyActualSittingDays_GET"><abbr title="GET /sitting/monthly-actual-sitting-days/{courtCenterName}/{year}">GET /sitting/monthly-actual-si...</abbr></a></li>
+          <li class="divider"></li>
+          <li class="text-right"><a href="#top"><small>Back to Top</small></a></li>
+        </ul>
+      </div>
+
+      <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+        <ol class="breadcrumb" id="top">
+          <li class="active dropdown"><a href="index.html">Home</a></li>
+          <li class="active dropdown"><a href="resources.html">Resources</a></li>
+          <li class="dropdown"><a href="resource_SittingsRestService.html">SittingsRestService</a></li>
+        </ol>
+
+      <h1 class="page-header">SittingsRestService <small>Resource</small></h1>
+
+      <p></p>
+
+      <div id="resource_SittingsRestService_setAnnualSittingTarget_PUT">
+        <h3>PUT <small>/sitting/annual-sitting-target <a href="./sitting/annual-sitting-target" class="glyphicon glyphicon-new-window" target="_blank"></a></small></h3>
+
+        <p></p>
+
+        <table class="table">
+          <caption>Request Body</caption>
+          <thead>
+          <tr>
+            <th>media type</th>
+            <th>data type</th>
+          </tr>
+          </thead>
+          <tbody>
+          </tbody>
+        </table>
+
+        <table class="table">
+          <caption>Response Body</caption>
+          <thead>
+          <tr>
+            <th>media type</th>
+            <th>data type</th>
+          </tr>
+          </thead>
+          <tbody>
+          </tbody>
+        </table>
+      </div>
+
+      <div id="resource_SittingsRestService_getAnnualSittingTarget_GET">
+        <h3>GET <small>/sitting/annual-sitting-target/{courtCenter}/{financialYear} <a href="./sitting/annual-sitting-target/{courtCenter}/{financialYear}" class="glyphicon glyphicon-new-window" target="_blank"></a></small></h3>
+
+        <p></p>
+
+        <table class="table">
+          <caption>Request Parameters</caption>
+          <thead>
+          <tr>
+            <th>name</th>
+            <th>type</th>
+            <th>description</th>
+            <th>default</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr>
+            <td>courtCenter</td>
+            <td>path</td>
+            <td></td>
+            <td>n/a</td>
+          </tr>
+          <tr>
+            <td>financialYear</td>
+            <td>path</td>
+            <td></td>
+            <td>n/a</td>
+          </tr>
+          </tbody>
+        </table>
+
+        <table class="table">
+          <caption>Response Body</caption>
+          <thead>
+          <tr>
+            <th>media type</th>
+            <th>data type</th>
+          </tr>
+          </thead>
+          <tbody>
+          </tbody>
+        </table>
+      </div>
+
+      <div id="resource_SittingsRestService_getAnnualActualSittingDays_GET">
+        <h3>GET <small>/sitting/annual-actual-sitting-days/{courtCenterName}/year/{year} <a href="./sitting/annual-actual-sitting-days/{courtCenterName}/year/{year}" class="glyphicon glyphicon-new-window" target="_blank"></a></small></h3>
+
+        <p></p>
+
+        <table class="table">
+          <caption>Request Parameters</caption>
+          <thead>
+          <tr>
+            <th>name</th>
+            <th>type</th>
+            <th>description</th>
+            <th>default</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr>
+            <td>courtCenterName</td>
+            <td>path</td>
+            <td>String name</td>
+            <td>n/a</td>
+          </tr>
+          <tr>
+            <td>year</td>
+            <td>path</td>
+            <td>String as a string to be in form of yyyy-yyyy (e.g. 2015-2016)</td>
+            <td>n/a</td>
+          </tr>
+          </tbody>
+        </table>
+
+        <table class="table">
+          <caption>Response Body</caption>
+          <thead>
+          <tr>
+            <th>media type</th>
+            <th>data type</th>
+          </tr>
+          </thead>
+          <tbody>
+          </tbody>
+        </table>
+      </div>
+
+      <div id="resource_SittingsRestService_getAnnualActualSittingDays_GET">
+        <h3>GET <small>/sitting/annual-actual-sitting-days/{courtCenterName}/date/{date} <a href="./sitting/annual-actual-sitting-days/{courtCenterName}/date/{date}" class="glyphicon glyphicon-new-window" target="_blank"></a></small></h3>
+
+        <p></p>
+
+        <table class="table">
+          <caption>Request Parameters</caption>
+          <thead>
+          <tr>
+            <th>name</th>
+            <th>type</th>
+            <th>description</th>
+            <th>default</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr>
+            <td>courtCenterName</td>
+            <td>path</td>
+            <td>String name</td>
+            <td>n/a</td>
+          </tr>
+          <tr>
+            <td>date</td>
+            <td>path</td>
+            <td></td>
+            <td>n/a</td>
+          </tr>
+          </tbody>
+        </table>
+
+        <table class="table">
+          <caption>Response Body</caption>
+          <thead>
+          <tr>
+            <th>media type</th>
+            <th>data type</th>
+          </tr>
+          </thead>
+          <tbody>
+          </tbody>
+        </table>
+      </div>
+
+      <div id="resource_SittingsRestService_getMonthlyActualSittingDays_GET">
+        <h3>GET <small>/sitting/monthly-actual-sitting-days/{courtCenterName}/{year} <a href="./sitting/monthly-actual-sitting-days/{courtCenterName}/{year}" class="glyphicon glyphicon-new-window" target="_blank"></a></small></h3>
+
+        <p></p>
+
+        <table class="table">
+          <caption>Request Parameters</caption>
+          <thead>
+          <tr>
+            <th>name</th>
+            <th>type</th>
+            <th>description</th>
+            <th>default</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr>
+            <td>courtCenterName</td>
+            <td>path</td>
+            <td>String name</td>
+            <td>n/a</td>
+          </tr>
+          <tr>
+            <td>year</td>
+            <td>path</td>
+            <td>String as a string to be in form of yyyy-yyyy (e.g. 2015-2016)</td>
+            <td>n/a</td>
+          </tr>
+          </tbody>
+        </table>
+
+        <table class="table">
+          <caption>Response Body</caption>
+          <thead>
+          <tr>
+            <th>media type</th>
+            <th>data type</th>
+          </tr>
+          </thead>
+          <tbody>
+          </tbody>
+        </table>
+      </div>
+
+        <footer class="footer">
+          <div class="container">
+            <p class="text-muted">Generated by <a href="http://enunciate.webcohesion.com">Enunciate</a>.</p>
+          </div>
+        </footer>
+
+      </div>
+    </div>
+  </div>
+
+
+  <!-- JavaScript placed at the end of the document so the pages load faster. -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+
+  <!-- Bootstrap core JavaScript
+  ================================================== -->
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+
+  <!-- prettify code blocks. see http://code.google.com/p/google-code-prettify/ -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prettify/r298/run_prettify.js" type="text/javascript"></script>
+  <script>
+    $(function() {
+      $(".clickable-row").click(function() {
+        window.document.location = $(this).data("href");
+      });
+
+      $('[data-toggle="tooltip"]').tooltip()
+    });
+  </script>
+
+</body>
+</html>
