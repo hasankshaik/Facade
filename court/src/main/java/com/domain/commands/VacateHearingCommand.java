@@ -10,12 +10,8 @@ public class VacateHearingCommand {
 			Room room, HearingType hearingType) {
 		super();
 		this.caseId = caseId;
-		this.dateOfSending = dateOfSending;
-		this.room = room;
 		this.hearingType = hearingType;
 	}
 	public String caseId;
-	public Date dateOfSending;
-	public Room room;
 	public HearingType hearingType;
 }

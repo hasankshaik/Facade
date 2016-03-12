@@ -4,10 +4,10 @@ import com.domain.room.Hearing;
 
 
 public class HearingVacatedEvent {
-	public Hearing casehearing;
+	public Hearing hearing;
 
-	public HearingVacatedEvent(Hearing casehearing) {
+	public HearingVacatedEvent(Hearing hearing) {
 		super();
-		this.casehearing = casehearing;
+		this.hearing = hearing;
 	}
 }

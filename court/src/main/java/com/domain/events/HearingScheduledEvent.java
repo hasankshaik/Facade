@@ -4,11 +4,11 @@ import com.domain.room.Hearing;
 
 
 public class HearingScheduledEvent {
-	public Hearing caseHearing;
+	public Hearing hearing;
 
-	public HearingScheduledEvent(Hearing caseHearing) {
+	public HearingScheduledEvent(Hearing hearing) {
 		super();
-		this.caseHearing = caseHearing;
+		this.hearing = hearing;
 	}
 
 }

@@ -1,22 +1,18 @@
 package com.domain.room;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import org.apache.commons.lang3.Validate;
 import org.apache.commons.lang3.time.DateUtils;
 
 public class Hearing {
 
 	public String caseId;
-	public Room courtRoom;
 	public HearingType hearingType;
 
 	public Hearing(String caseId,Date dateOfSending, Room courtRoom, HearingType hearingType) {
 		super();
 		this.caseId = caseId;
-		this.courtRoom = courtRoom;
 		this.hearingType = hearingType;
 		if (hearingType == HearingType.PTP) {
 			List<Session> sessions = courtRoom.getSessions(calculatePtpHearing(dateOfSending));
